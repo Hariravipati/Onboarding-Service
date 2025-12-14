@@ -9,6 +9,12 @@ export class Forms {
   @Column({ name: 'FormName', type: 'nvarchar', length: 200 })
   formName: string;
 
+  @Column({ name: 'FormUrl', type: 'nvarchar', length: 500, nullable: true })
+  formUrl: string;
+
+  @Column({ name: 'LogoUrl', type: 'nvarchar', length: 500, nullable: true })
+  logoUrl: string;
+
   @Column({ name: 'CreatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
   createdDate: Date;
 

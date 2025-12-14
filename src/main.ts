@@ -26,9 +26,10 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document);
     logger.log('Swagger documentation configured at /api');
 
-    await app.listen(3000);
-    logger.log('Application is running on: http://localhost:3000');
-    logger.log('Swagger UI available at: http://localhost:3000/api');
+    const port = process.env.PORT || 3000;
+    await app.listen(port);
+    logger.log(`Application is running on port: ${port}`);
+    logger.log('Swagger UI available at: /api');
     logger.log('Onboarding Service started successfully');
   } catch (error) {
     logger.error('Failed to start application', error);

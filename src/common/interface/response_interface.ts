@@ -1,7 +1,9 @@
-export interface response_interface {
-  data?: string[];
-  msg?: string;
-  status?: number;
-  success?: boolean;
-  tag?: string;
+ 
+
+
+interface ApiResponse<T> {
+  message: string;
+  data: T;
+  success: boolean;
+  status: number;
 }

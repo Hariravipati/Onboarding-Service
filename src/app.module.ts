@@ -7,6 +7,8 @@ import { FormVersion } from './modules/e-onboarding/entities/form-version.entity
 import { Forms } from './modules/e-onboarding/entities/forms.entity';
 import { OrgFormMapping } from './modules/e-onboarding/entities/org-form-mapping.entity';
 import { RequestStatusHistory } from './modules/e-onboarding/entities/request-status-history.entity';
+import { CandidateDetails } from './modules/e-onboarding/entities/candidate-details.entity';
+import { EOnboardingDocuments } from './modules/e-onboarding/entities/e-onboarding-documents.entity';
 import { EOnboardingModule } from './modules/e-onboarding/e-onboarding.module';
 @Module({
   imports: [
@@ -19,12 +21,14 @@ import { EOnboardingModule } from './modules/e-onboarding/e-onboarding.module';
       database: 'onboarding_db',
       entities: [
         Organization,
-        Forms,
-        FormVersion,
-        OrgFormMapping,
         EOnboardingRequest,
         EOnboardingResponse,
+        FormVersion,
+        Forms,
+        OrgFormMapping,
         RequestStatusHistory,
+        CandidateDetails,
+        EOnboardingDocuments,
       ],
       synchronize: true,
       options: {

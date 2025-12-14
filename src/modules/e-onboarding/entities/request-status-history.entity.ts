@@ -19,7 +19,7 @@ export class RequestStatusHistory {
   @Column({ name: 'ChangedAt', type: 'datetime2', default: () => 'SYSDATETIME()' })
   changedAt: Date;
 
-  @ManyToOne(() => EOnboardingRequest, request => request.statusHistory)
-  @JoinColumn({ name: 'RequestId' })
-  request: EOnboardingRequest;
+  // @ManyToOne(() => EOnboardingRequest, request => request.statusHistory)
+  // @JoinColumn({ name: 'RequestId' })
+  // request: EOnboardingRequest;
 }

@@ -1,22 +1,30 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToOne, OneToMany, JoinColumn, Index } from 'typeorm';
-import { Organization } from './organization.entity';
-import { FormVersion } from './form-version.entity';
-import { EOnboardingResponse } from './e-onboarding-response.entity';
-import { RequestStatusHistory } from './request-status-history.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  // ManyToOne,
+  // OneToOne,
+  // OneToMany,
+  // JoinColumn,
+  Index,
+} from 'typeorm';
+// import { Organization } from './organization.entity';
+// import { FormVersion } from './form-version.entity';
+// import { EOnboardingResponse } from './e-onboarding-response.entity';
+// import { RequestStatusHistory } from './request-status-history.entity';
 
 @Entity('EOnboardingRequest')
-@Index('IX_EOnboardingRequest_OrgId', ['orgId'])
-@Index('IX_EOnboardingRequest_FormVersionId', ['formVersionId'])
 @Index('IX_EOnboardingRequest_Status', ['status'])
 export class EOnboardingRequest {
+
   @PrimaryGeneratedColumn({ name: 'RequestId' })
   requestId: number;
 
   @Column({ name: 'OrgId' })
-  orgId: number;
+  orgId: number
 
-  @Column({ name: 'FormVersionId' })
-  formVersionId: number;
+  @Column({ name: 'FormId' })
+  formId: number
 
   @Column({ name: 'Email', type: 'nvarchar', length: 200 })
   email: string;
@@ -36,17 +44,31 @@ export class EOnboardingRequest {
   @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
   updatedDate: Date;
 
-  @ManyToOne(() => Organization, org => org.onboardingRequests)
-  @JoinColumn({ name: 'OrgId' })
-  organization: Organization;
+  /* =========================
+     Relations
+     ========================= */
 
-  @ManyToOne(() => FormVersion, version => version.onboardingRequests)
-  @JoinColumn({ name: 'FormVersionId' })
-  formVersion: FormVersion;
+  // @ManyToOne(() => Organization, org => org.onboardingRequests, {
+  //   onDelete: 'CASCADE',
+  // })
+  // // @JoinColumn({ name: 'OrgId' })
+  // // @Index('IX_EOnboardingRequest_OrgId')
+  // // organization: Organization;
 
-  @OneToOne(() => EOnboardingResponse, response => response.request)
-  response: EOnboardingResponse;
+  // // @ManyToOne(() => FormVersion, version => version.onboardingRequests, {
+  // //   onDelete: 'NO ACTION',
+  // // })
+  // // @JoinColumn({ name: 'FormVersionId' })
+  // // @Index('IX_EOnboardingRequest_FormVersionId')
+  // // formVersion: FormVersion;
 
-  @OneToMany(() => RequestStatusHistory, history => history.request)
-  statusHistory: RequestStatusHistory[];
+
+
+  // @OneToOne(() => EOnboardingResponse, response => response.request)
+  // response: EOnboardingResponse;
+
+  // @OneToMany(() => RequestStatusHistory, history => history.request, {
+  //   cascade: true,
+  // })
+  // statusHistory: RequestStatusHistory[];
 }

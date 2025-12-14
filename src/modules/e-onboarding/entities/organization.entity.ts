@@ -28,6 +28,6 @@ export class Organization {
   @OneToMany(() => OrgFormMapping, mapping => mapping.organization)
   formMappings: OrgFormMapping[];
 
-  @OneToMany(() => EOnboardingRequest, request => request.organization)
-  onboardingRequests: EOnboardingRequest[];
+  // @OneToMany(() => EOnboardingRequest, request => request.organization)
+  // onboardingRequests: EOnboardingRequest[];
 }

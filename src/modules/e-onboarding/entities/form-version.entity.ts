@@ -14,7 +14,7 @@ export class FormVersion {
   @Column({ name: 'VersionNo' })
   versionNo: number;
 
-  @Column({ name: 'FormJson', type: 'nvarchar' })
+  @Column({ name: 'FormJson', type: 'text' })
   formJson: string;
 
   @Column({ name: 'IsActive', type: 'bit', default: true })
@@ -33,6 +33,6 @@ export class FormVersion {
   @OneToMany(() => OrgFormMapping, mapping => mapping.formVersion)
   orgMappings: OrgFormMapping[];
 
-  @OneToMany(() => EOnboardingRequest, request => request.formVersion)
-  onboardingRequests: EOnboardingRequest[];
+  // @OneToMany(() => EOnboardingRequest, request => request.formVersion)
+  // onboardingRequests: EOnboardingRequest[];
 }
