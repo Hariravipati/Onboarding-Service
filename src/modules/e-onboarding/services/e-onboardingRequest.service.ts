@@ -12,35 +12,41 @@ export class EOnboardingRequestService {
 
   }
 
-   async saveRequest(
-      request: CreateEOnboardingRequestDto,
-    ): Promise<any> {
-      try {
-        const requestEntity: EOnboardingRequest = {
-          requestId: null,
-          email: request.email,
-          mobileNo: request.mobileNo ?? null,
-          expiryDate: request.expiryDate,
-          createdDate: new Date(),
-          status: 'P',
-          updatedDate: null,
-          // Foreign keys / relations
-          orgId: request.orgId,
-          formId: request.formVersionId,
-        };
-       this.eOnboardingRepository.saveRequest(requestEntity)
+  async saveRequest(
+    request: CreateEOnboardingRequestDto,
+  ): Promise<any> {
+    try {
+      const requestEntity: EOnboardingRequest = {
+        requestId: null,
+        email: request.email,
+        mobileNo: request.mobileNo ?? null,
+        expiryDate: request.expiryDate,
+        createdDate: new Date(),
+        status: 'P',
+        updatedDate: null,
+        // Foreign keys / relations
+        orgId: request.orgId,
+        formId: request.formVersionId,
+      };
+      this.eOnboardingRepository.saveRequest(requestEntity)
 
-      } catch (err) {
-         
-      }
+    } catch (err) {
+
     }
-    async saveResponse(
-      response: any,
-    ): Promise<any> {
-      try {
-      } catch (err) {
-        throw err;
-      }
+  }
+  async saveResponse(
+    response: any,
+  ): Promise<any> {
+    try {
+    } catch (err) {
+      throw err;
     }
+  }
+
+
+  async bulkEobRequests(file:any){
+    
+
+  }
 
 }

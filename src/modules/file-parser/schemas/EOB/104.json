@@ -1,0 +1,72 @@
+{
+  "feature_id": 104,
+  "feature_name": "bank-details-upload-template",
+  "headers": [
+    "S_No",
+    "*Client_ID",
+    "*Emp_Code",
+    "*Emp_Name",
+    "*Pay_Mode",
+    "*IFSC_Code",
+    "*Account_Number",
+    "*Penny Drop Y/N",
+    "*Interaction_ID"
+  ],
+  "unique_columns": [
+    "*Emp_Code"
+  ],
+  "schema": [
+    {
+      "name": "S_No",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "*Client_ID",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "*Emp_Code",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "*Emp_Name",
+      "type": "string",
+      "required": true,
+      "pattern": "^[A-Za-z ]+$"
+    },
+    {
+      "name": "*Pay_Mode",
+      "type": "string",
+      "required": true,
+      "enum": ["SBI", "HDFC", "Axis", "ICICI", "NEFT", "NoBPM", "Cheque"]
+    },
+    {
+      "name": "*IFSC_Code",
+      "type": "string",
+      "required": true,
+      "pattern": "^[A-Z]{4}0[A-Z0-9]{6}$"
+    },
+    {
+      "name": "*Account_Number",
+      "type": "number",
+      "required": true,
+      "min_length": 6,
+      "max_length": 18
+    },
+    {
+      "name": "*Penny Drop Y/N",
+      "type": "string",
+      "required": true,
+      "pattern": "^[YyNn]$"
+    },
+    {
+      "name": "*Interaction_ID",
+      "type": "string",
+      "required": true,
+      "pattern": "^\\d{3}-\\d{3}-\\d{3}$"
+    }
+  ]
+}

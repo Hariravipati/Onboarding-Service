@@ -1,0 +1,92 @@
+{
+  "feature_id": 102,
+  "feature_name": "cdoj-template",
+  "headers": [
+    "*Slno",
+    "*Ecode",
+    "*Name",
+    "*Contract From",
+    "*Contract To",
+    "*Billing Month",
+    "*Confirm DOJ",
+    "*Current Month",
+    "*Status(R/C)",
+    "*Interaction ID"
+  ],
+  "unique_columns" : [
+    "*Ecode"
+  ],
+  "schema":[
+        {
+      "name": "*Slno",
+      "label": "Serial Number",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "*Ecode",
+      "label": "Employee Code",
+      "type": "string",
+      "required": true,
+      "allowNumeric": true
+    },
+    {
+      "name": "*Name",
+      "label": "Employee Name",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "*Contract From",
+      "label": "Contract From",
+      "type": "date",
+      "required": true,
+      "format": "DD-MMM-YYYY",
+      "pattern":  "^(0[1-9]|[12][0-9]|3[01])-[A-Za-z]{3}-\\d{4}$"
+    },
+    {
+      "name": "*Contract To",
+      "label": "Contract To",
+      "type": "date",
+      "required": true,
+      "format": "dd-MMM-yyyy",
+      "pattern":  "^(0[1-9]|[12][0-9]|3[01])-[A-Za-z]{3}-\\d{4}$"
+    },
+    {
+      "name": "*Billing Month",
+      "label": "Billing Month",
+      "type": "string",
+      "required": false
+    },
+    {
+      "name": "*Confirm DOJ",
+      "label": "Confirmed Date of Joining",
+      "type": "date",
+      "required": true,
+      "format": "DD-MMM-YYYY",
+      "pattern":  "^(0[1-9]|[12][0-9]|3[01])-[A-Za-z]{3}-\\d{4}$"
+    },
+    {
+      "name": "*Current Month",
+      "label": "Current Month",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "*Status(R/C)",
+      "label": "Status (R/C)",
+      "type": "enum",
+      "required": true,
+      "allowedValues": ["R", "C"],
+      "pattern":"R/C"
+    },
+    {
+      "name": "*Interaction ID",
+      "label": "Interaction ID",
+      "type": "string",
+      "required": true,
+      "pattern":  "^\\d{3}-\\d{3}-\\d{3}$"
+    }]
+}
+
+

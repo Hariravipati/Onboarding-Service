@@ -1,0 +1,89 @@
+{
+  "feature_id": 102,
+  "feature_name": "contract-extenction-template",
+  "headers": [
+    "SNo",
+    "Ecode",
+    "Name",
+    "Contract From",
+    "Contract To",
+    "*Revised Date",
+    "*Auto Extend (Y/N)",
+    "*Email Trigger (Y/N)",
+    "*Reason",
+    "*Interaction ID"
+  ],
+  "unique_columns" : [
+    "Ecode"
+  ],
+  "schema":[
+        {
+      "name": "SNo",
+      "label": "Serial Number",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "Ecode",
+      "label": "Employee Code",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Name",
+      "label": "Employee Name",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Contract From",
+      "label": "Contract From",
+      "type": "date",
+      "required": true,
+      "format": "DD-MMM-YYYY"
+    },
+    {
+      "name": "Contract To",
+      "label": "Contract To",
+      "type": "date",
+      "required": true,
+      "format": "DD-MMM-YYYY"
+    },
+    {
+      "name": "*Revised Date",
+      "label": "Revised Date",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "*Auto Extend (Y/N)",
+      "label": "Auto Extend (Y/N)",
+      "type": "enum",
+      "allowedValues": ["Y", "N"],
+      "required": true,
+      "pattern": "Y/N"
+    },
+    {
+      "name": "*Email Trigger (Y/N)",
+      "label": "Email Trigger (Y/N)",
+      "type": "enum",
+      "allowedValues": ["Y", "N"],
+      "required": true,
+      "pattern": "Y/N"
+    },
+    {
+      "name": "*Reason",
+       "label": "Reason",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "*Interaction ID",
+      "label": "Interaction ID",
+      "type": "string",
+      "required": true,
+      "pattern":  "^\\d{3}-\\d{3}-\\d{3}$"
+    }]
+}
+
+

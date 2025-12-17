@@ -1,0 +1,94 @@
+{
+  "feature_id": 103,
+  "feature_name": "contract-extenction-approval-template",
+  "headers": [
+    "SNo",
+    "Ecode",
+    "Name",
+    "Contract From",
+    "Contract To",
+    "Revised Date",
+    "Auto Extend",
+    "Interaction ID",
+    "Status",
+    "*Action (A/R/C)",
+    "*Reason"
+  ],
+  "unique_columns" : [
+    "Ecode"
+  ],
+  "schema":[
+        {
+      "name": "SNo",
+      "label": "Serial Number",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "Ecode",
+      "label": "Employee Code",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Name",
+      "label": "Employee Name",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Contract From",
+      "label": "Contract From",
+      "type": "date",
+      "required": true,
+      "format": "DD-MMM-YYYY"
+    },
+    {
+      "name": "Contract To",
+      "label": "Contract To",
+      "type": "date",
+      "required": true,
+      "format": "DD-MMM-YYYY"
+    },
+    {
+      "name": "Revised Date",
+      "label": "Revised Date",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "Auto Extend",
+      "label": "Auto Extend",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "Interaction ID",
+       "label": "Interaction ID",
+      "type": "string",
+      "required": true,
+      "pattern":  "^\\d{3}-\\d{3}-\\d{3}$"
+    },
+    {
+      "name": "Status",
+       "label": "Status",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "*Action (A/R/C)",
+      "label": "Action",
+      "type": "enum",
+      "allowedValues": ["A", "R", "C"],
+      "required": true,
+      "pattern": "A/R/C"
+    },
+    {
+      "name": "*Reason",
+       "label": "Reason",
+      "type": "string",
+      "required": true
+    }]
+}
+
+
