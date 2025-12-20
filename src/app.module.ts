@@ -10,6 +10,7 @@ import { RequestStatusHistory } from './modules/e-onboarding/entities/request-st
 import { CandidateDetails } from './modules/e-onboarding/entities/candidate-details.entity';
 import { EOnboardingDocuments } from './modules/e-onboarding/entities/e-onboarding-documents.entity';
 import { EOnboardingModule } from './modules/e-onboarding/e-onboarding.module';
+import { MobileOTP } from './modules/e-onboarding/entities/mobile-otp.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -29,6 +30,7 @@ import { EOnboardingModule } from './modules/e-onboarding/e-onboarding.module';
         RequestStatusHistory,
         CandidateDetails,
         EOnboardingDocuments,
+        MobileOTP,
       ],
       synchronize: true,
       options: {
@@ -39,4 +41,4 @@ import { EOnboardingModule } from './modules/e-onboarding/e-onboarding.module';
     EOnboardingModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

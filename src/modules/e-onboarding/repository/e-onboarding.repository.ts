@@ -151,5 +151,19 @@ export class EOnboardingRepository {
     }
   }
 
+  async VerifyMobileNo(mobileNo: string): Promise<EOnboardingRequest[]> {
+    try {
+      return await this.requestRepository.find({
+        where: {
+          mobileNo: mobileNo
+        },
+      });
+    } catch (err) {
+      this.logger.error('saveRequest failed', err as any);
+      throw err;
+    }
+  }
+
+  
 
 }

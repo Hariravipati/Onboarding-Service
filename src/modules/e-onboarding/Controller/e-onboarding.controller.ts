@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, Res, UseInterceptors } from '@nestjs/common';
-import { EOnboardingService } from './services/e-onboarding.service';
-import { CreateEOnboardingRequestDto } from './dto/e-onboarding-request.dto';
-import { EOnboardingRequestService } from './services/e-onboardingRequest.service';
-import { ApiBody } from '@nestjs/swagger';
+import { EOnboardingService } from '../services/e-onboarding.service';
+import { CreateEOnboardingRequestDto } from '../dto/e-onboarding-request.dto';
+import { EOnboardingRequestService } from '../services/e-onboardingRequest.service';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
+@ApiTags('Onboarding')
 @Controller('onboarding')
 export class OnboardingController {
   constructor(
@@ -35,7 +36,9 @@ export class OnboardingController {
 
 
   @Post('eob-request')
+  @ApiOperation({ summary: 'Create EOB request' })
   @ApiBody({ type: CreateEOnboardingRequestDto })
+  @ApiResponse({ status: 201, description: 'Request created successfully' })
   async EobRequest(@Body() dto: CreateEOnboardingRequestDto) {
 
     console.log("Log:", CreateEOnboardingRequestDto)
@@ -60,7 +63,7 @@ export class OnboardingController {
 
   @Post('bulk-S3-upload-async')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadBulkFileAsync( @Body() body: Record<string, any> ) {
+  async uploadBulkFileAsync(@Body() body: Record<string, any>) {
     try {
       const { file } = body;
       const result = await this.eOnboardingRequestService.bulkEobRequests(file);
