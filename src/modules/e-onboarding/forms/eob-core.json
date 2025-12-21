@@ -1,0 +1,1427 @@
+{
+    "title": "Employee Onboarding",
+    "description": "Please complete the sections below.",
+    "layout": "vertical",
+    "tabs": [
+        {
+            "id": "tab_1",
+            "label": "Employee KYC",
+            "icon": "FileText",
+            "fields": [
+                {
+                    "name": "aadhar_no",
+                    "label": "Enter your Aadhar Number",
+                    "type": "text",
+                    "required": true,
+                    "regex": "\\d{12}"
+                },
+                {
+                    "name": "mobile_no",
+                    "label": "Enter your Mobile Number",
+                    "type": "text",
+                    "required": true,
+                    "regex": "\\d{10}"
+                },
+                {
+                    "name": "pan",
+                    "label": "Enter your PAN Number",
+                    "type": "text",
+                    "required": true,
+                    "regex": "[A-Z]{5}[0-9]{4}[A-Z]{1}"
+                }
+            ]
+        },
+        {
+            "id": "tab_2",
+            "label": "Personal & Contact Details",
+            "icon": "User",
+            "groups": [
+                {
+                    "id": "grp_personal",
+                    "label": "Personal Information",
+                    "fields": [
+                        {
+                            "name": "full_name",
+                            "label": "Name as per Aadhaar",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "dob",
+                            "label": "DOB as per Aadhaar",
+                            "type": "date",
+                            "required": true
+                        },
+                        {
+                            "name": "gender",
+                            "label": "Gender",
+                            "type": "select",
+                            "required": true,
+                            "options": [
+                                {
+                                    "id": "M",
+                                    "value": "Male"
+                                },
+                                {
+                                    "id": "F",
+                                    "value": "Female"
+                                },
+                                {
+                                    "id": "O",
+                                    "value": "Others"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "blood_group",
+                            "label": "Blood Group",
+                            "type": "select",
+                            "required": true,
+                            "options": [
+                                {
+                                    "id": "A+",
+                                    "value": "A+"
+                                },
+                                {
+                                    "id": "A-",
+                                    "value": "A-"
+                                },
+                                {
+                                    "id": "B+",
+                                    "value": "B+"
+                                },
+                                {
+                                    "id": "B-",
+                                    "value": "B-"
+                                },
+                                {
+                                    "id": "O+",
+                                    "value": "O+"
+                                },
+                                {
+                                    "id": "O-",
+                                    "value": "O-"
+                                },
+                                {
+                                    "id": "AB+",
+                                    "value": "AB+"
+                                },
+                                {
+                                    "id": "AB-",
+                                    "value": "AB-"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "grp_contact",
+                    "label": "Contact Information",
+                    "fields": [
+                        {
+                            "name": "personal_email",
+                            "label": "Personal Email",
+                            "type": "email",
+                            "required": true
+                        },
+                        {
+                            "name": "alternate_mobile",
+                            "label": "Alternate Mobile Number",
+                            "type": "text",
+                            "regex": "\\d{10}"
+                        },
+                        {
+                            "name": "emergency_contact_name",
+                            "label": "Emergency Contact Name",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "emergency_contact_number",
+                            "label": "Emergency Contact Number",
+                            "type": "text",
+                            "required": true,
+                            "regex": "\\d{10}"
+                        },
+                        {
+                            "name": "emergency_relationship",
+                            "label": "Relationship",
+                            "type": "select",
+                            "options": [
+                                {
+                                    "id": "SPOUSE",
+                                    "value": "Spouse"
+                                },
+                                {
+                                    "id": "PARENT",
+                                    "value": "Parent"
+                                },
+                                {
+                                    "id": "SIBLING",
+                                    "value": "Sibling"
+                                },
+                                {
+                                    "id": "FRIEND",
+                                    "value": "Friend"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "grp_address",
+                    "label": "Address Information",
+                    "fields": [
+                        {
+                            "name": "present_address_line1",
+                            "label": "Present Address Line 1",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "present_city",
+                            "label": "Present City",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "present_state",
+                            "label": "Present State",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "present_pincode",
+                            "label": "Present Pincode",
+                            "type": "text",
+                            "required": true,
+                            "regex": "\\d{6}"
+                        },
+                        {
+                            "name": "same_as_present",
+                            "label": "Permanent Address same as Present",
+                            "type": "checkbox"
+                        },
+                        {
+                            "name": "permanent_address_line1",
+                            "label": "Permanent Address Line 1",
+                            "type": "text",
+                            "requiredIf": {
+                                "field": "same_as_present",
+                                "value": false
+                            }
+                        },
+                        {
+                            "name": "permanent_city",
+                            "label": "Permanent City",
+                            "type": "text",
+                            "requiredIf": {
+                                "field": "same_as_present",
+                                "value": false
+                            }
+                        },
+                        {
+                            "name": "permanent_state",
+                            "label": "Permanent State",
+                            "type": "text",
+                            "requiredIf": {
+                                "field": "same_as_present",
+                                "value": false
+                            }
+                        },
+                        {
+                            "name": "permanent_pincode",
+                            "label": "Permanent Pincode",
+                            "type": "text",
+                            "regex": "\\d{6}",
+                            "requiredIf": {
+                                "field": "same_as_present",
+                                "value": false
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "tab_3",
+            "label": "Education Details",
+            "icon": "GraduationCap",
+            "sections": [
+                {
+                    "id": "highest_qualification_section",
+                    "title": "Highest Qualification",
+                    "fields": [
+                        {
+                            "name": "highest_qualification",
+                            "type": "select",
+                            "label": "Highest Qualification",
+                            "required": true,
+                            "validation": {
+                                "required": "Please select your highest qualification"
+                            },
+                            "responsive": {
+                                "className": "col-12"
+                            },
+                            "options": {
+                                "source": "qualifications_master",
+                                "valueField": "code",
+                                "labelField": "name"
+                            },
+                            "triggers": [
+                                {
+                                    "event": "onChange",
+                                    "action": "updateDynamicSection",
+                                    "target": "education_details_section",
+                                    "rules": {
+                                        "minRows": {
+                                            "condition": "value >= 5",
+                                            "value": 2,
+                                            "default": 1
+                                        },
+                                        "allowedQualifications": {
+                                            "filter": "q.code <= value"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "education_details_section",
+                    "title": "Education Details",
+                    "type": "dynamic_repeater",
+                    "dependsOn": "highest_qualification",
+                    "minRows": 1,
+                    "maxRows": 10,
+                    "addButtonText": "+ Add Qualification",
+                    "removeButtonText": "Remove",
+                    "responsive": {
+                        "container": "mb-4",
+                        "row": "border rounded p-3 mb-3 bg-light"
+                    },
+                    "fields": [
+                        {
+                            "name": "qualification_code",
+                            "type": "select",
+                            "label": "Qualification",
+                            "required": true,
+                            "responsive": {
+                                "className": "col-12 col-md-6"
+                            },
+                            "options": {
+                                "source": "filtered_qualifications",
+                                "valueField": "code",
+                                "labelField": "name"
+                            },
+                            "validation": {
+                                "required": "Please select qualification"
+                            }
+                        },
+                        {
+                            "name": "degree_name",
+                            "type": "text",
+                            "label": "Degree / Course Name",
+                            "placeholder": "e.g., Bachelor of Engineering",
+                            "required": true,
+                            "responsive": {
+                                "className": "col-12 col-md-6"
+                            },
+                            "validation": {
+                                "required": "Please enter degree name",
+                                "minLength": 2
+                            }
+                        },
+                        {
+                            "name": "institution_name",
+                            "type": "text",
+                            "label": "Institution Name",
+                            "placeholder": "e.g., ABC University",
+                            "required": true,
+                            "responsive": {
+                                "className": "col-12 col-md-6"
+                            },
+                            "validation": {
+                                "required": "Please enter institution name",
+                                "minLength": 2
+                            }
+                        },
+                        {
+                            "name": "year_of_passing",
+                            "type": "number",
+                            "label": "Year of Passing",
+                            "placeholder": "YYYY",
+                            "required": true,
+                            "responsive": {
+                                "className": "col-12 col-md-6"
+                            },
+                            "validation": {
+                                "required": "Please enter year of passing",
+                                "min": 1950,
+                                "max": 2030
+                            }
+                        },
+                        {
+                            "name": "percentage_cgpa",
+                            "type": "text",
+                            "label": "Percentage / CGPA",
+                            "placeholder": "e.g., 85% or 8.5 CGPA",
+                            "responsive": {
+                                "className": "col-12 col-md-6"
+                            }
+                        },
+                        {
+                            "name": "mode_of_study",
+                            "type": "select",
+                            "label": "Mode of Study",
+                            "required": true,
+                            "responsive": {
+                                "className": "col-12 col-md-6"
+                            },
+                            "options": {
+                                "static": [
+                                    {
+                                        "value": "REG",
+                                        "label": "Regular"
+                                    },
+                                    {
+                                        "value": "DIS",
+                                        "label": "Distance"
+                                    },
+                                    {
+                                        "value": "ONL",
+                                        "label": "Online"
+                                    },
+                                    {
+                                        "value": "COR",
+                                        "label": "Correspondence"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "REG"
+                        },
+                        {
+                            "name": "is_highest",
+                            "type": "checkbox",
+                            "label": "Is this your highest qualification?",
+                            "responsive": {
+                                "className": "col-12"
+                            },
+                            "validation": {
+                                "custom": "exactlyOneHighest"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "actions": [
+                {
+                    "id": "submit",
+                    "type": "submit",
+                    "label": "Submit Education Details",
+                    "className": "btn btn-primary me-2",
+                    "validation": {
+                        "validateAll": true,
+                        "customRules": [
+                            "exactlyOneHighest",
+                            "highestQualificationPresent"
+                        ]
+                    }
+                },
+                {
+                    "id": "save_draft",
+                    "type": "button",
+                    "label": "Save as Draft",
+                    "className": "btn btn-outline-secondary",
+                    "action": "saveDraft"
+                }
+            ]
+        },
+        {
+            "id": "tab_4",
+            "label": "Bank Details",
+            "icon": "Landmark",
+            "groups": [
+                {
+                    "id": "grp_bank",
+                    "label": "Bank Account Information",
+                    "fields": [
+                        {
+                            "name": "accountHolderName",
+                            "label": "Account Holder Name",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "accountNumber",
+                            "label": "Account Number",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "confirmAccountNumber",
+                            "label": "Confirm Account Number",
+                            "type": "text",
+                            "required": true,
+                            "matchWith": "accountNumber"
+                        },
+                        {
+                            "name": "ifscCode",
+                            "label": "IFSC Code",
+                            "type": "text",
+                            "required": true,
+                            "regex": "^[A-Z]{4}0[A-Z0-9]{6}$"
+                        },
+                        {
+                            "name": "bankName",
+                            "label": "Bank Name",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "branchName",
+                            "label": "Branch Name",
+                            "type": "text",
+                            "required": true
+                        },
+                        {
+                            "name": "branchAddress",
+                            "label": "Branch Address",
+                            "type": "textarea"
+                        },
+                        {
+                            "name": "accountType",
+                            "label": "Account Type",
+                            "type": "select",
+                            "required": true,
+                            "options": [
+                                {
+                                    "id": "SAVINGS",
+                                    "value": "Savings Account"
+                                },
+                                {
+                                    "id": "CURRENT",
+                                    "value": "Current Account"
+                                },
+                                {
+                                    "id": "SALARY",
+                                    "value": "Salary Account"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "tab_5",
+            "label": "Family / Relationship Details",
+            "icon": "Users",
+            "groups": [
+                {
+                    "id": "grp_relationship_selection",
+                    "label": "Select Family Members",
+                    "fields": [
+                        {
+                            "name": "relationships",
+                            "label": "Select Relationships",
+                            "type": "multiselect",
+                            "required": true,
+                            "options": [
+                                {
+                                    "id": "FATHER",
+                                    "value": "Father"
+                                },
+                                {
+                                    "id": "MOTHER",
+                                    "value": "Mother"
+                                },
+                                {
+                                    "id": "SPOUSE",
+                                    "value": "Spouse"
+                                },
+                                {
+                                    "id": "SISTER",
+                                    "value": "Sister"
+                                },
+                                {
+                                    "id": "BROTHER",
+                                    "value": "Brother"
+                                },
+                                {
+                                    "id": "CHILD_1",
+                                    "value": "First Child"
+                                },
+                                {
+                                    "id": "CHILD_2",
+                                    "value": "Second Child"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": "grp_family_details",
+                    "label": "Family Member Details",
+                    "repeatable": true,
+                    "showIf": {
+                        "field": "relationships",
+                        "operator": "notEmpty"
+                    },
+                    "template": {
+                        "fields": [
+                            {
+                                "name": "relationshipType",
+                                "label": "Relationship",
+                                "type": "select",
+                                "required": true,
+                                "optionsFrom": "relationships",
+                                "readonly": true
+                            },
+                            {
+                                "name": "memberName",
+                                "label": "Name",
+                                "type": "text",
+                                "required": true
+                            },
+                            {
+                                "name": "memberDob",
+                                "label": "Date of Birth",
+                                "type": "date",
+                                "required": true
+                            },
+                            {
+                                "name": "residentWithYou",
+                                "label": "Resident with You",
+                                "type": "radio",
+                                "required": true,
+                                "options": [
+                                    {
+                                        "id": "Y",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "id": "N",
+                                        "value": "No"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "id": "tab_6",
+            "label": "Experience Details",
+            "icon": "Briefcase",
+            "settings": {
+                "allowMultiple": true,
+                "minEntries": 0,
+                "maxEntries": 10,
+                "addButtonLabel": "Add Company",
+                "removeButtonLabel": "Remove Company"
+            },
+            "currentEmployment": {
+                "enabled": true,
+                "label": "Are you currently employed?",
+                "type": "boolean",
+                "default": false,
+                "fields": [
+                    {
+                        "name": "companyName",
+                        "label": "Current Company Name",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "employeeCode",
+                        "label": "Employee Code",
+                        "type": "text"
+                    },
+                    {
+                        "name": "position",
+                        "label": "Position / Designation",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "dateOfJoining",
+                        "label": "Date of Joining",
+                        "type": "date",
+                        "required": true
+                    },
+                    {
+                        "name": "ctc",
+                        "label": "CTC (Annual)",
+                        "type": "number"
+                    },
+                    {
+                        "name": "address",
+                        "label": "Company Address",
+                        "type": "textarea"
+                    }
+                ]
+            },
+            "fields": [
+                {
+                    "name": "companyName",
+                    "label": "Company Name",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "name": "employeeCode",
+                    "label": "Employee Code",
+                    "type": "text"
+                },
+                {
+                    "name": "position",
+                    "label": "Position / Designation",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "name": "dateOfJoining",
+                    "label": "Date of Joining",
+                    "type": "date",
+                    "required": true
+                },
+                {
+                    "name": "dateOfRelieving",
+                    "label": "Date of Relieving",
+                    "type": "date",
+                    "required": true,
+                    "conditional": {
+                        "dependsOn": "currentEmployment",
+                        "operator": "EQUALS",
+                        "value": true,
+                        "action": "HIDE"
+                    }
+                },
+                {
+                    "name": "ctc",
+                    "label": "CTC (Annual)",
+                    "type": "number"
+                },
+                {
+                    "name": "address",
+                    "label": "Company Address",
+                    "type": "textarea"
+                },
+                {
+                    "name": "experienceCertificate",
+                    "label": "Experience / Relieving Certificate",
+                    "type": "file",
+                    "required": true,
+                    "accept": [
+                        ".pdf",
+                        ".jpg",
+                        ".png"
+                    ],
+                    "conditional": {
+                        "dependsOn": "currentEmployment",
+                        "operator": "EQUALS",
+                        "value": true,
+                        "action": "HIDE"
+                    }
+                },
+                {
+                    "name": "supportingDocuments",
+                    "label": "Supporting Documents (Offer / Payslips)",
+                    "type": "file",
+                    "multiple": true,
+                    "accept": [
+                        ".pdf",
+                        ".jpg",
+                        ".png"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "tab_7",
+            "label": "EPF / EPS Nomination",
+            "icon": "Users",
+            "settings": {
+                "allowMultiple": false
+            },
+            "partA_EPF": {
+                "enabled": true,
+                "label": "Part A – EPF Nomination",
+                "settings": {
+                    "allowMultiple": true,
+                    "minEntries": 1,
+                    "maxEntries": 5,
+                    "addButtonLabel": "Add Nominee",
+                    "removeButtonLabel": "Remove Nominee"
+                },
+                "fields": [
+                    {
+                        "name": "nomineeName",
+                        "label": "Name & Address of Nominee",
+                        "type": "textarea",
+                        "required": true
+                    },
+                    {
+                        "name": "relationship",
+                        "label": "Relationship with Member",
+                        "type": "select",
+                        "required": true,
+                        "options": [
+                            {
+                                "label": "Spouse",
+                                "value": "SPOUSE"
+                            },
+                            {
+                                "label": "Son",
+                                "value": "SON"
+                            },
+                            {
+                                "label": "Daughter",
+                                "value": "DAUGHTER"
+                            },
+                            {
+                                "label": "Father",
+                                "value": "FATHER"
+                            },
+                            {
+                                "label": "Mother",
+                                "value": "MOTHER"
+                            },
+                            {
+                                "label": "Brother",
+                                "value": "BROTHER"
+                            },
+                            {
+                                "label": "Sister",
+                                "value": "SISTER"
+                            },
+                            {
+                                "label": "Other",
+                                "value": "OTHER"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "dateOfBirth",
+                        "label": "Date of Birth",
+                        "type": "date",
+                        "required": true
+                    },
+                    {
+                        "name": "sharePercentage",
+                        "label": "Share of EPF Accumulation (%)",
+                        "type": "number",
+                        "required": true
+                    },
+                    {
+                        "name": "isMinor",
+                        "label": "Is Nominee a Minor?",
+                        "type": "boolean",
+                        "default": false
+                    },
+                    {
+                        "name": "guardianDetails",
+                        "label": "Guardian Name & Address",
+                        "type": "textarea",
+                        "conditional": {
+                            "dependsOn": "isMinor",
+                            "operator": "EQUALS",
+                            "value": true,
+                            "action": "SHOW"
+                        }
+                    }
+                ]
+            },
+            "partB_EPS": {
+                "enabled": true,
+                "label": "Part B – EPS (Family Details)",
+                "settings": {
+                    "allowMultiple": true,
+                    "minEntries": 0,
+                    "maxEntries": 5,
+                    "addButtonLabel": "Add Family Member",
+                    "removeButtonLabel": "Remove Member"
+                },
+                "fields": [
+                    {
+                        "name": "familyMemberName",
+                        "label": "Name of Family Member",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "address",
+                        "label": "Address",
+                        "type": "textarea",
+                        "required": true
+                    },
+                    {
+                        "name": "dateOfBirth",
+                        "label": "Date of Birth",
+                        "type": "date",
+                        "required": true
+                    },
+                    {
+                        "name": "relationship",
+                        "label": "Relationship with Member",
+                        "type": "select",
+                        "required": true,
+                        "options": [
+                            {
+                                "label": "Spouse",
+                                "value": "SPOUSE"
+                            },
+                            {
+                                "label": "Son",
+                                "value": "SON"
+                            },
+                            {
+                                "label": "Daughter",
+                                "value": "DAUGHTER"
+                            },
+                            {
+                                "label": "Father",
+                                "value": "FATHER"
+                            },
+                            {
+                                "label": "Mother",
+                                "value": "MOTHER"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "tab_7",
+            "label": "EPF / EPS Nomination",
+            "icon": "FileText",
+            "settings": {
+                "allowMultiple": false
+            },
+            "previousEPFMember": {
+                "enabled": true,
+                "label": "Were you earlier a member of Employees’ Provident Fund Scheme, 1952?",
+                "type": "radio",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": true
+                    },
+                    {
+                        "label": "No",
+                        "value": false
+                    }
+                ],
+                "fields": [
+                    {
+                        "name": "uanNumber",
+                        "label": "UAN Number",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "previousPfNumber",
+                        "label": "Previous PF Number",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "exitDate",
+                        "label": "Exit Date",
+                        "type": "date",
+                        "required": true
+                    },
+                    {
+                        "name": "ppoNumber",
+                        "label": "Pension Payment Order (PPO) Number",
+                        "type": "text"
+                    }
+                ]
+            },
+            "internationalWorker": {
+                "enabled": true,
+                "label": "Are you an International Worker?",
+                "type": "radio",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": true
+                    },
+                    {
+                        "label": "No",
+                        "value": false
+                    }
+                ],
+                "fields": [
+                    {
+                        "name": "passportNumber",
+                        "label": "Passport Number",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "passportCountry",
+                        "label": "Passport Issuing Country",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "passportValidFrom",
+                        "label": "Passport Valid From",
+                        "type": "date",
+                        "required": true
+                    },
+                    {
+                        "name": "passportValidTo",
+                        "label": "Passport Valid To",
+                        "type": "date",
+                        "required": true
+                    }
+                ]
+            },
+            "partA": {
+                "label": "Part A – EPF Nomination",
+                "allowMultiple": true,
+                "maxEntries": 5,
+                "fields": [
+                    {
+                        "name": "nomineeName",
+                        "label": "Nominee Name & Address",
+                        "type": "textarea",
+                        "required": true
+                    },
+                    {
+                        "name": "relationship",
+                        "label": "Relationship with Member",
+                        "type": "select",
+                        "required": true,
+                        "options": [
+                            {
+                                "label": "Spouse",
+                                "value": "SPOUSE"
+                            },
+                            {
+                                "label": "Son",
+                                "value": "SON"
+                            },
+                            {
+                                "label": "Daughter",
+                                "value": "DAUGHTER"
+                            },
+                            {
+                                "label": "Father",
+                                "value": "FATHER"
+                            },
+                            {
+                                "label": "Mother",
+                                "value": "MOTHER"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "dateOfBirth",
+                        "label": "Date of Birth",
+                        "type": "date"
+                    },
+                    {
+                        "name": "pfSharePercentage",
+                        "label": "Share of PF Accumulation (%)",
+                        "type": "number",
+                        "required": true
+                    },
+                    {
+                        "name": "isMinor",
+                        "label": "Is Nominee a Minor?",
+                        "type": "radio",
+                        "options": [
+                            {
+                                "label": "Yes",
+                                "value": true
+                            },
+                            {
+                                "label": "No",
+                                "value": false
+                            }
+                        ]
+                    },
+                    {
+                        "name": "guardianDetails",
+                        "label": "Guardian Name & Address",
+                        "type": "textarea",
+                        "conditional": {
+                            "dependsOn": "isMinor",
+                            "operator": "EQUALS",
+                            "value": true,
+                            "action": "SHOW"
+                        }
+                    }
+                ]
+            },
+            "partB": {
+                "label": "Part B – EPS Family Details",
+                "allowMultiple": true,
+                "maxEntries": 5,
+                "fields": [
+                    {
+                        "name": "familyMemberName",
+                        "label": "Name of Family Member",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "address",
+                        "label": "Address",
+                        "type": "textarea",
+                        "required": true
+                    },
+                    {
+                        "name": "dateOfBirth",
+                        "label": "Date of Birth",
+                        "type": "date",
+                        "required": true
+                    },
+                    {
+                        "name": "relationship",
+                        "label": "Relationship with Member",
+                        "type": "select",
+                        "required": true,
+                        "options": [
+                            {
+                                "label": "Spouse",
+                                "value": "SPOUSE"
+                            },
+                            {
+                                "label": "Son",
+                                "value": "SON"
+                            },
+                            {
+                                "label": "Daughter",
+                                "value": "DAUGHTER"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "tab_8",
+            "label": "ESIC Details",
+            "icon": "ShieldCheck",
+            "settings": {
+                "allowMultiple": false
+            },
+            "esicEligibility": {
+                "enabled": true,
+                "label": "Are you eligible for ESIC?",
+                "type": "radio",
+                "options": [
+                    {
+                        "label": "Yes",
+                        "value": true
+                    },
+                    {
+                        "label": "No",
+                        "value": false
+                    }
+                ],
+                "infoMessage": "ESIC is applicable if gross salary is less than ₹21,000",
+                "fields": [
+                    {
+                        "name": "esicNumber",
+                        "label": "ESIC Number",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "employeeCodeNo",
+                        "label": "Employee Code Number",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "officeName",
+                        "label": "ESIC Office Name",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "dispensaryName",
+                        "label": "Dispensary Name",
+                        "type": "text",
+                        "required": true
+                    },
+                    {
+                        "name": "nomineeRelationship",
+                        "label": "Nominee Relationship",
+                        "type": "select",
+                        "required": true,
+                        "optionsSource": "relationships"
+                    },
+                    {
+                        "name": "nomineeName",
+                        "label": "Nominee Name",
+                        "type": "text",
+                        "required": true
+                    }
+                ]
+            }
+        },
+        {
+            "formId": "gratuity_form",
+            "title": "Gratuity Details",
+            "description": "Provide gratuity details based on family relationships",
+            "sections": [
+                {
+                    "id": "gratuity_details_section",
+                    "title": "Gratuity Details",
+                    "fields": [
+                        {
+                            "id": "relationship",
+                            "type": "multiselect",
+                            "label": "Select Relationship(s)",
+                            "options": [
+                                {
+                                    "value": "mother",
+                                    "label": "Mother"
+                                },
+                                {
+                                    "value": "father",
+                                    "label": "Father"
+                                },
+                                {
+                                    "value": "husband_father",
+                                    "label": "Husband/Father"
+                                }
+                            ],
+                            "required": true
+                        },
+                        {
+                            "id": "gratuity_info",
+                            "type": "repeater",
+                            "label": "Gratuity Information",
+                            "repeatBasedOn": "relationship",
+                            "fields": [
+                                {
+                                    "id": "relation_name",
+                                    "type": "text",
+                                    "label": "Name",
+                                    "required": true
+                                },
+                                {
+                                    "id": "percentage",
+                                    "type": "number",
+                                    "label": "Percentage of Gratuity",
+                                    "required": true,
+                                    "min": 0,
+                                    "max": 100
+                                },
+                                {
+                                    "id": "address",
+                                    "type": "textarea",
+                                    "label": "Address",
+                                    "required": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tabId": "tab_9",
+            "formId": "document_upload_form",
+            "title": "Tab 9 - Document Upload",
+            "description": "Upload required documents",
+            "sections": [
+                {
+                    "id": "documents_section",
+                    "title": "Documents Upload",
+                    "fields": [
+                        {
+                            "id": "aadhar_card",
+                            "type": "group",
+                            "label": "Aadhar Card",
+                            "fields": [
+                                {
+                                    "id": "aadhar_front",
+                                    "type": "file",
+                                    "label": "Front Side",
+                                    "required": true
+                                },
+                                {
+                                    "id": "aadhar_back",
+                                    "type": "file",
+                                    "label": "Back Side",
+                                    "required": true
+                                }
+                            ]
+                        },
+                        {
+                            "id": "pan_card",
+                            "type": "group",
+                            "label": "PAN Card",
+                            "fields": [
+                                {
+                                    "id": "pan_file",
+                                    "type": "file",
+                                    "label": "Upload PAN",
+                                    "required": true
+                                }
+                            ]
+                        },
+                        {
+                            "id": "present_address_proof",
+                            "type": "group",
+                            "label": "Present Address Proof",
+                            "fields": [
+                                {
+                                    "id": "address_proof_file",
+                                    "type": "file",
+                                    "label": "Upload File",
+                                    "required": true
+                                }
+                            ]
+                        },
+                        {
+                            "id": "voter_id",
+                            "type": "group",
+                            "label": "Voter ID",
+                            "fields": [
+                                {
+                                    "id": "voter_front",
+                                    "type": "file",
+                                    "label": "Front Side",
+                                    "required": true
+                                },
+                                {
+                                    "id": "voter_back",
+                                    "type": "file",
+                                    "label": "Back Side",
+                                    "required": true
+                                }
+                            ]
+                        },
+                        {
+                            "id": "education_certificates",
+                            "type": "group",
+                            "label": "Education Certificates",
+                            "fields": [
+                                {
+                                    "id": "education_files",
+                                    "type": "file",
+                                    "label": "Upload Certificate for Highest Qualification",
+                                    "required": true,
+                                    "multiple": true,
+                                    "showIf": {
+                                        "field": "tab_3.education_details_section",
+                                        "condition": "is_highest === true"
+                                    },
+                                    "note": "Upload certificates corresponding to your highest qualification selected in Tab 3"
+                                }
+                            ]
+                        },
+                        {
+                            "id": "previous_employment",
+                            "type": "group",
+                            "label": "Previous Employment Documents",
+                            "fields": [
+                                {
+                                    "id": "employment_files",
+                                    "type": "file",
+                                    "label": "Upload Documents",
+                                    "required": true,
+                                    "multiple": true
+                                }
+                            ]
+                        },
+                        {
+                            "id": "bank_documents",
+                            "type": "group",
+                            "label": "Bank Documents",
+                            "fields": [
+                                {
+                                    "id": "bank_files",
+                                    "type": "file",
+                                    "label": "Upload Bank Documents",
+                                    "required": true,
+                                    "multiple": true
+                                }
+                            ]
+                        },
+                        {
+                            "id": "epf_documents",
+                            "type": "group",
+                            "label": "EPF Documents",
+                            "fields": [
+                                {
+                                    "id": "epf_files",
+                                    "type": "file",
+                                    "label": "Upload EPF Documents",
+                                    "required": true,
+                                    "multiple": true
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tabId": "tab_10",
+            "formId": "digital_signature_form",
+            "title": "Tab 10 - Digital Signature / Document Upload",
+            "description": "Provide your digital signature or upload an image of your signature",
+            "sections": [
+                {
+                    "id": "signature_section",
+                    "title": "Digital Signature / Upload",
+                    "fields": [
+                        {
+                            "id": "digital_signature",
+                            "type": "signature",
+                            "label": "Draw your signature",
+                            "required": false,
+                            "placeholder": "Use mouse or touch to sign"
+                        },
+                        {
+                            "id": "upload_signature",
+                            "type": "file",
+                            "label": "Or upload signature image/document",
+                            "required": false,
+                            "accept": [
+                                ".png",
+                                ".jpg",
+                                ".jpeg",
+                                ".pdf"
+                            ]
+                        },
+                        {
+                            "id": "note",
+                            "type": "text",
+                            "label": "Note",
+                            "value": "You can either draw your signature above or upload an image/PDF of your signature.",
+                            "readonly": true
+                        }
+                    ]
+                }
+            ],
+            "actions": [
+                {
+                    "id": "submit_signature",
+                    "type": "submit",
+                    "label": "Submit Signature",
+                    "className": "btn btn-primary",
+                    "validation": {
+                        "customRules": [
+                            "requireEitherDigitalOrUpload"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

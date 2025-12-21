@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { OnboardingController } from './Controller/e-onboarding.controller';
 import { Organization } from './entities/organization.entity';
 import { Forms } from './entities/forms.entity';
 import { FormVersion } from './entities/form-version.entity';
@@ -15,6 +14,7 @@ import { EobVerificationController } from './Controller/eob-verificaiton.control
 import { EobVerificaitonRequestService } from './services/eob-verificaiton.service';
 import { MobileOTP } from './entities/mobile-otp.entity';
 import { EobVerificationRepository } from './repository/eob.verification.repository';
+import { EobRequestController } from './Controller/eob-request.controller';
 
 @Module({
   imports: [
@@ -30,7 +30,7 @@ import { EobVerificationRepository } from './repository/eob.verification.reposit
     ]),
   ],
   providers: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository],
-  controllers: [OnboardingController,EobVerificationController],
+  controllers: [EobRequestController,EobVerificationController],
   exports: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository],
 })
 export class EOnboardingModule {}

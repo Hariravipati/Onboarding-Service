@@ -7,7 +7,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Onboarding')
 @Controller('onboarding')
-export class OnboardingController {
+export class EobRequestController {
   constructor(
     private readonly onboardingService: EOnboardingService,
     private readonly eOnboardingRequestService: EOnboardingRequestService

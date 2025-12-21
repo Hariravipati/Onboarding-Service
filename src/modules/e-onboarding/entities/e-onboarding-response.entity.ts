@@ -3,10 +3,8 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToOne,
-  JoinColumn,
 } from 'typeorm';
 import { CandidateDetails } from './candidate-details.entity';
-import { EOnboardingRequest } from './e-onboarding-request.entity';
 
 @Entity('EOnboardingResponse')
 export class EOnboardingResponse {

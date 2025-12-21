@@ -2,16 +2,8 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  // ManyToOne,
-  // OneToOne,
-  // OneToMany,
-  // JoinColumn,
   Index,
 } from 'typeorm';
-// import { Organization } from './organization.entity';
-// import { FormVersion } from './form-version.entity';
-// import { EOnboardingResponse } from './e-onboarding-response.entity';
-// import { RequestStatusHistory } from './request-status-history.entity';
 
 @Entity('EOnboardingRequest')
 @Index('IX_EOnboardingRequest_Status', ['status'])
