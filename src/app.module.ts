@@ -32,10 +32,10 @@ import { MobileOTP } from './modules/e-onboarding/entities/mobile-otp.entity';
         EOnboardingDocuments,
         MobileOTP,
       ],
-      synchronize: true,
+      synchronize: false,
       options: {
         encrypt: false,
-        trustServerCertificate: true,
+        trustServerCertificate: false,
       },
     }),
     EOnboardingModule,

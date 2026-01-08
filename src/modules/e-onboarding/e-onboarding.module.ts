@@ -15,6 +15,10 @@ import { EobVerificaitonRequestService } from './services/eob-verificaiton.servi
 import { MobileOTP } from './entities/mobile-otp.entity';
 import { EobVerificationRepository } from './repository/eob.verification.repository';
 import { EobRequestController } from './Controller/eob-request.controller';
+import { CandidateController } from './Controller/candidate.controller';
+import { CandidateService } from './services/candidate.service';
+import { CandidateDetails } from './entities/candidate-details.entity';
+import { EOnboardingDocuments } from './entities/e-onboarding-documents.entity';
 
 @Module({
   imports: [
@@ -26,11 +30,13 @@ import { EobRequestController } from './Controller/eob-request.controller';
       EOnboardingRequest,
       EOnboardingResponse,
       RequestStatusHistory,
-      MobileOTP
+      MobileOTP,
+      CandidateDetails,
+      EOnboardingDocuments
     ]),
   ],
-  providers: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository],
-  controllers: [EobRequestController,EobVerificationController],
-  exports: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository],
+  providers: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository,CandidateService],
+  controllers: [EobRequestController,EobVerificationController,CandidateController],
+  exports: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository,CandidateService],
 })
 export class EOnboardingModule {}

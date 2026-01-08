@@ -39,11 +39,20 @@ export class CandidateDetails {
   @Column({ name: 'CustomFieldsJson', type: 'nvarchar', nullable: true })
   customFieldsJson: string;
 
+  @Column({
+    name: 'OtherDetailsJson',
+    type: 'nvarchar',
+    length: 'MAX',
+    nullable: true
+  })
+  otherDetailsJson: string;
+
   @Column({ name: 'CreatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
   createdDate: Date;
 
   @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
   updatedDate: Date;
+
 
   /* =========================
      Relations
@@ -57,4 +66,36 @@ export class CandidateDetails {
     cascade: true,
   })
   documents: EOnboardingDocuments[];
+}
+
+
+
+export function mapCandidateToDto(
+  entity: CandidateDetails,
+): any {
+  return {
+    candidateId: entity.candidateId,
+    fullName: entity.fullName,
+    email: entity.email,
+    mobileNo: entity.mobileNo,
+    aadharNo: entity.aadharNo,
+    panNo: entity.panNo,
+    passportNo: entity.passportNo,
+    uanNo: entity.uanNo,
+
+    customFieldsJson: entity.customFieldsJson
+      ? JSON.parse(entity.customFieldsJson)
+      : null,
+
+    otherDetailsJson: entity.otherDetailsJson
+      ? JSON.parse(entity.otherDetailsJson)
+      : null,
+
+    documents: entity.documents?.map(doc => ({
+      candidateDocumentId: doc.candidateDocumentId,
+      docId: doc.docId,
+      docType: doc.docType,
+      docUrl: doc.docUrl,
+    })),
+  };
 }
