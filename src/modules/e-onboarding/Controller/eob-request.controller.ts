@@ -40,8 +40,6 @@ export class EobRequestController {
   @ApiBody({ type: CreateEOnboardingRequestDto })
   @ApiResponse({ status: 201, description: 'Request created successfully' })
   async EobRequest(@Body() dto: CreateEOnboardingRequestDto) {
-
-    console.log("Log:", CreateEOnboardingRequestDto)
     return await this.eOnboardingRequestService.saveRequest(dto);
   }
 
@@ -61,16 +59,16 @@ export class EobRequestController {
     res.send(result.data);
   }
 
-  @Post('bulk-S3-upload-async')
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadBulkFileAsync(@Body() body: Record<string, any>) {
-    try {
-      const { file } = body;
-      const result = await this.eOnboardingRequestService.bulkEobRequests(file);
-      return result;
-    } catch (error: any) {
-    }
-  }
+  // @Post('bulk-S3-upload-async')
+  // @UseInterceptors(FileInterceptor('file'))
+  // async uploadBulkFileAsync(@Body() body: Record<string, any>) {
+  //   try {
+  //     const { file } = body;
+  //     const result = await this.eOnboardingRequestService.bulkEobRequests(file);
+  //     return result;
+  //   } catch (error: any) {
+  //   }
+  // }
 
 }
 

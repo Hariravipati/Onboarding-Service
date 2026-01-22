@@ -123,6 +123,15 @@ export class EOnboardingRepository {
     }
   }
 
+  async findPendingRequest(email: string, mobileNo?: string): Promise<EOnboardingRequest | null> {
+    return await this.requestRepository.findOne({
+      where: [
+        { email, status: 'P' },
+        ...(mobileNo ? [{ mobileNo, status: 'P' }] : []),
+      ],
+    });
+  }
+
   async saveResponse(
     response: EOnboardingResponse,
   ): Promise<EOnboardingResponse> {

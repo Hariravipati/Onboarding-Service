@@ -3,6 +3,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './filters/global-exception.filter';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
@@ -14,7 +15,8 @@ async function bootstrap() {
     logger.log('NestJS application created successfully');
 
     app.useGlobalFilters(new GlobalExceptionFilter());
-    logger.log('Global exception filter registered');
+    app.useGlobalInterceptors(new ResponseInterceptor());
+    logger.log('Global exception filter and response interceptor registered');
 
     const config = new DocumentBuilder()
       .setTitle('Onboarding Service API')

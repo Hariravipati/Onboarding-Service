@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { EOnboardingRepository } from '../repository/e-onboarding.repository';
 import { CreateEOnboardingRequestDto } from '../dto/e-onboarding-request.dto';
 import { EOnboardingRequest } from '../entities/e-onboarding-request.entity';
@@ -15,36 +15,33 @@ export class EOnboardingRequestService {
   async saveRequest(
     request: CreateEOnboardingRequestDto,
   ): Promise<any> {
-    try {
-      const requestEntity: EOnboardingRequest = {
-        requestId: null,
-        email: request.email,
-        mobileNo: request.mobileNo ?? null,
-        expiryDate: request.expiryDate,
-        createdDate: new Date(),
-        status: 'P',
-        updatedDate: null,
-        // Foreign keys / relations
-        orgId: request.orgId,
-        formId: request.formVersionId,
-      };
-      this.eOnboardingRepository.saveRequest(requestEntity)
+    await this.validateDuplicateRequest(request.email, request.mobileNo);
 
-    } catch (err) {
+    const requestEntity: EOnboardingRequest = {
+      requestId: null,
+      email: request.email,
+      mobileNo: request.mobileNo ?? null,
+      expiryDate: request.expiryDate,
+      createdDate: new Date(),
+      status: 'P',
+      updatedDate: null,
+      orgId: request.orgId,
+      formId: request.formVersionId,
+    };
 
-    }
+    return await this.eOnboardingRepository.saveRequest(requestEntity);
   }
-  async saveResponse(
-    response: any,
-  ): Promise<any> {
-    try {
-    } catch (err) {
-      throw err;
-    }
-  }
-  async bulkEobRequests(file:any){
-    
 
+  private async validateDuplicateRequest(email: string, mobileNo?: string): Promise<void> {
+    const existing = await this.eOnboardingRepository.findPendingRequest(email, mobileNo);
+
+    if (existing) {
+      throw new BadRequestException(
+        existing.email === email
+          ? 'Email already has a Eob pending request'
+          : 'Mobile number already has a Eob pending request'
+      );
+    }
   }
 
 }

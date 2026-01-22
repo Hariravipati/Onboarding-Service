@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Organization } from './modules/e-onboarding/entities/organization.entity';
 import { EOnboardingRequest } from './modules/e-onboarding/entities/e-onboarding-request.entity';
 import { EOnboardingResponse } from './modules/e-onboarding/entities/e-onboarding-response.entity';
@@ -11,32 +12,37 @@ import { CandidateDetails } from './modules/e-onboarding/entities/candidate-deta
 import { EOnboardingDocuments } from './modules/e-onboarding/entities/e-onboarding-documents.entity';
 import { EOnboardingModule } from './modules/e-onboarding/e-onboarding.module';
 import { MobileOTP } from './modules/e-onboarding/entities/mobile-otp.entity';
+
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mssql',
-      host: '122.166.174.83',
-      port: 1433,
-      username: 'sa',
-      password: 'Sqlserver123$',
-      database: 'onboarding_db',
-      entities: [
-        Organization,
-        EOnboardingRequest,
-        EOnboardingResponse,
-        FormVersion,
-        Forms,
-        OrgFormMapping,
-        RequestStatusHistory,
-        CandidateDetails,
-        EOnboardingDocuments,
-        MobileOTP,
-      ],
-      synchronize: false,
-      options: {
-        encrypt: false,
-        trustServerCertificate: false,
-      },
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'mssql',
+        host: config.get('DB_HOST'),
+        port: +config.get('DB_PORT'),
+        username: config.get('DB_USERNAME'),
+        password: config.get('DB_PASSWORD'),
+        database: config.get('DB_NAME'),
+        entities: [
+          Organization,
+          EOnboardingRequest,
+          EOnboardingResponse,
+          FormVersion,
+          Forms,
+          OrgFormMapping,
+          RequestStatusHistory,
+          CandidateDetails,
+          EOnboardingDocuments,
+          MobileOTP,
+        ],
+        synchronize: false,
+        options: {
+          encrypt: config.get('DB_ENCRYPT') === 'true',
+          trustServerCertificate: config.get('DB_TRUST_SERVER_CERTIFICATE') === 'true',
+        },
+      }),
     }),
     EOnboardingModule,
   ],

@@ -7,6 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { ResponseDto } from '../dto/response_dto';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -18,8 +19,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     let status: number;
-    let message: string;
-    let error: string;
+    let message: string | string[];
 
     if (exception instanceof HttpException) {
       status = exception.getStatus();
@@ -27,31 +27,21 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       
       if (typeof errorResponse === 'object' && errorResponse !== null) {
         message = (errorResponse as any).message || exception.message;
-        error = (errorResponse as any).error || 'Http Exception';
       } else {
         message = errorResponse as string;
-        error = 'Http Exception';
       }
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       message = 'Internal server error';
-      error = 'Internal Server Error';
       
-      // Log unexpected errors
       this.logger.error(
         `Unexpected error: ${exception}`,
         exception instanceof Error ? exception.stack : undefined,
       );
     }
 
-    const errorResponse = {
-      success: false,
-      status,
-      error,
-      message,
-      timestamp: new Date().toISOString(),
-      path: request.url,
-    };
+    const errorMessage = Array.isArray(message) ? message.join(', ') : message;
+    const errorResponse = ResponseDto.error(status, errorMessage);
 
     response.status(status).json(errorResponse);
   }
