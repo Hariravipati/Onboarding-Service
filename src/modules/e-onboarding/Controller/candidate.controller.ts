@@ -10,6 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateCandidateDto } from '../dto/candidate-details.dto';
+
 import { UploadDocumentsDto } from '../dto/upload-documents.dto';
 import { CandidateService } from '../services/candidate.service';
 import { OrgId } from '../../../common/interceptors/org-id.decorator';
@@ -71,7 +72,7 @@ export class CandidateController {
   async updateCandidate(
     @OrgId() orgId: number,
     @Param('candidateId', ParseIntPipe) candidateId: number,
-    @Body() dto: CreateCandidateDto,
+    @Body() dto: any,
   ): Promise<any> {
     return this.candidateService.updateCandidate(candidateId, dto, orgId);
   }

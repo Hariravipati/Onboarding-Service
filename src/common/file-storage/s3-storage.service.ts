@@ -6,11 +6,13 @@ import { IFileStorageService } from './file-storage.interface';
 export class S3StorageService implements IFileStorageService {
   private readonly logger = new Logger(S3StorageService.name);
   private readonly s3: S3;
-  private readonly bucketName = process.env.S3_BUCKET_NAME || 'onboarding-documents';
+  private readonly bucketName = process.env.AWS_S3_BUCKET_NAME || process.env.S3_BUCKET_NAME || 'onboarding-documents';
 
   constructor() {
     this.s3 = new S3({
       region: process.env.AWS_REGION || 'us-east-1',
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     });
   }
 
