@@ -51,8 +51,8 @@ import { FileStorageFactory, FILE_STORAGE_SERVICE } from '../../common/file-stor
     EOnboardingRequestService,
     EobVerificaitonRequestService,
     EobVerificationRepository,
-    // QcVerificationRepository,
-    // QcVerificationService,
+    QcVerificationRepository,
+    QcVerificationService,
     CandidateRepository,
     CandidateService,
     S3StorageService,
@@ -64,6 +64,6 @@ import { FileStorageFactory, FILE_STORAGE_SERVICE } from '../../common/file-stor
     },
   ],
   controllers: [EobRequestController,EobVerificationController,CandidateController,HealthController],
-  exports: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository,CandidateService,CandidateRepository,FILE_STORAGE_SERVICE],
+  exports: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository,CandidateService,CandidateRepository,FILE_STORAGE_SERVICE,QcVerificationService,QcVerificationRepository],
 })
 export class EOnboardingModule {}

@@ -1,0 +1,207 @@
+{
+  "info": {
+    "name": "E-Onboarding - Candidate Controller",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection covering Candidate Controller endpoints: create, update, fetch, upload docs, preview, QC, approve, and submit."
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "orgId", "value": "1" },
+    { "key": "candidateId", "value": "{{candidateId}}" },
+    { "key": "docType", "value": "AADHAR" },
+    { "key": "docId", "value": "AAD-001" }
+  ],
+  "item": [
+    {
+      "name": "Candidate Controller",
+      "item": [
+        {
+          "name": "GET Storage Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/candidates/storage-info?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates","storage-info"],
+              "query": [
+                { "key": "orgId", "value": "{{orgId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Candidate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"aadharNo\": \"123412341234\",\n  \"mobileNo\": \"9999999999\",\n  \"fullName\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"documents\": [\n    {\n      \"docId\": \"{{docId}}\",\n      \"docType\": \"{{docType}}\",\n      \"fileName\": \"aadhar.pdf\",\n      \"contentType\": \"application/pdf\",\n      \"docBuffer\": \"<base64-encoded-pdf>\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/candidates?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates"],
+              "query": [
+                { "key": "orgId", "value": "{{orgId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Candidate",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"John R. Doe\",\n  \"documents\": [\n    {\n      \"docId\": \"AAD-002\",\n      \"docType\": \"AADHAR\",\n      \"fileName\": \"aadhar_new.pdf\",\n      \"contentType\": \"application/pdf\",\n      \"docBuffer\": \"<base64-encoded-pdf>\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId"],
+              "variable": [
+                { "key": "candidateId", "value": "{{candidateId}}" }
+              ],
+              "query": [
+                { "key": "orgId", "value": "{{orgId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Candidate by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId"],
+              "variable": [
+                { "key": "candidateId", "value": "{{candidateId}}" }
+              ],
+              "query": [
+                { "key": "orgId", "value": "{{orgId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Documents Preview",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId/documents/preview?orgId={{orgId}}&docType={{docType}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId","documents","preview"],
+              "variable": [ { "key": "candidateId", "value": "{{candidateId}}" } ],
+              "query": [
+                { "key": "orgId", "value": "{{orgId}}" },
+                { "key": "docType", "value": "{{docType}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Upload Documents",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documents\": [\n    {\n      \"docId\": \"UPD-001\",\n      \"docType\": \"PASSPORT\",\n      \"fileName\": \"passport.pdf\",\n      \"contentType\": \"application/pdf\",\n      \"docBuffer\": \"<base64-encoded-pdf>\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId/documents?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId","documents"],
+              "variable": [ { "key": "candidateId", "value": "{{candidateId}}" } ],
+              "query": [ { "key": "orgId", "value": "{{orgId}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Get Candidate for Preview",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId/preview?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId","preview"],
+              "variable": [ { "key": "candidateId", "value": "{{candidateId}}" } ],
+              "query": [ { "key": "orgId", "value": "{{orgId}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Approve Candidate",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remarks\": \"All documents verified.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId/approve?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId","approve"],
+              "variable": [ { "key": "candidateId", "value": "{{candidateId}}" } ],
+              "query": [ { "key": "orgId", "value": "{{orgId}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Create QC Verification",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"docType\": \"AADHAR\",\n  \"status\": \"APPROVED\",\n  \"remarks\": \"Looks good\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId/qc-verification?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId","qc-verification"],
+              "variable": [ { "key": "candidateId", "value": "{{candidateId}}" } ],
+              "query": [ { "key": "orgId", "value": "{{orgId}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Get QC Verification Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId/qc-verification?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId","qc-verification"],
+              "variable": [ { "key": "candidateId", "value": "{{candidateId}}" } ],
+              "query": [ { "key": "orgId", "value": "{{orgId}}" } ]
+            }
+          }
+        },
+        {
+          "name": "Submit Candidate",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/candidates/:candidateId/submit?orgId={{orgId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidates",":candidateId","submit"],
+              "variable": [ { "key": "candidateId", "value": "{{candidateId}}" } ],
+              "query": [ { "key": "orgId", "value": "{{orgId}}" } ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

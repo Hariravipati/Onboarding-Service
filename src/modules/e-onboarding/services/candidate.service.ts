@@ -10,7 +10,7 @@ import { CandidateRepository } from '../repository/candidate.repository';
 import { CandidateDetailsResponseDto } from '../dto/candidate-response.dto';
 import { FILE_STORAGE_SERVICE } from 'src/common/file-storage/file-storage.factory';
 import { IFileStorageService } from 'src/common/file-storage/file-storage.interface';
-// import { QcVerificationService } from './qc-verification.service';
+import { QcVerificationService } from './qc-verification.service';
 
 
 @Injectable()
@@ -20,6 +20,8 @@ export class CandidateService {
     private readonly candidateRepository: CandidateRepository,
     @Inject(FILE_STORAGE_SERVICE)
     private readonly fileStorageService: IFileStorageService,
+
+    private readonly qcVerificationService: QcVerificationService,
   ) {}
 
   async createCandidate(
@@ -56,7 +58,7 @@ export class CandidateService {
       if (dto.documents) {
         const documentsWithUrls = await this.processDocumentUploads(dto.documents);
         const savedDocuments = await this.candidateRepository.saveDocuments(savedCandidate, documentsWithUrls);
-        // await this.qcVerificationService.createQcVerificationEntries(savedCandidate.candidateId, savedDocuments);
+        // QC verification entries will be created during final submit
         this.logger.log('Documents saved', { candidateId: savedCandidate.candidateId, docCount: dto.documents.length });
       }
       
@@ -111,7 +113,7 @@ export class CandidateService {
       await this.candidateRepository.archiveDocumentsByTypes(candidateEntity, docTypes);
       const documentsWithUrls = await this.processDocumentUploads(dto.documents);
       const savedDocuments = await this.candidateRepository.saveDocuments(candidateEntity, documentsWithUrls);
-      // await this.qcVerificationService.createQcVerificationEntries(candidateId, savedDocuments);
+      // QC verification entries will be created during final submit
     }
 
     return this.getCandidateById(candidateId, orgId);
@@ -180,8 +182,20 @@ export class CandidateService {
         throw new NotFoundException('Candidate not found');
       }
 
+      // Ensure QC verification entries exist for current documents (create on submit)
+      const documents = await this.candidateRepository.getDocumentsByType(candidateId);
+      if (documents?.length) {
+        const existingQc = await this.qcVerificationService.getQcVerificationStatus(candidateId, orgId);
+        const existingDocTypes = existingQc.map(q => q.docType);
+        const docsToCreate = documents.filter(doc => !existingDocTypes.includes(doc.docType));
+        if (docsToCreate.length) {
+          await this.qcVerificationService.createQcVerificationEntries(candidateId, docsToCreate);
+          this.logger.log('QC verification entries created on submit', { candidateId, createdCount: docsToCreate.length });
+        }
+      }
+
       // Check if all documents have QC verification approved
-      // const qcValidation = await this.qcVerificationService.validateAllQcApproved(candidateId);
+      const qcValidation = await this.qcVerificationService.validateAllQcApproved(candidateId);
       
       // if (!qcValidation.isAllApproved) {
       //   throw new BadRequestException(
