@@ -42,6 +42,7 @@ import { QcVerification } from './modules/e-onboarding/entities/qc-verification.
           CandidateDetails,
           EOnboardingDocuments,
           MobileOTP,
+          QcVerification,
         ],
         extra: {
           trustServerCertificate: config.get('DB_TRUST_SERVER_CERTIFICATE') === 'true',
