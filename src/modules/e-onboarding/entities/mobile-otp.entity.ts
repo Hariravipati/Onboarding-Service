@@ -1,7 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
 @Entity('MobileOTP')
-@Index('IX_MobileOTP_MobileNo', ['mobileNo'])
 export class MobileOTP {
   @PrimaryGeneratedColumn()
   id: number;

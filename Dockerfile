@@ -1,15 +1,27 @@
-FROM node:18-alpine
+# Use the official Node.js image as a base
+FROM node:20
 
-WORKDIR /app
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
+# Copy package.json and package-lock.json (if available)
 COPY package*.json ./
-RUN npm ci
 
+# Install the app dependencies
+RUN npm install
+
+# Copy the rest of your application code
 COPY . .
-COPY .env .
+
+# Build the application
 RUN npm run build
-RUN npm ci --only=production
 
-EXPOSE 3001
+# Expose the port your app runs on (adjust if necessary)
+EXPOSE 3004
 
-CMD ["npm", "run", "start:prod"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3004/health || exit 1
+
+# Command to start your app
+CMD ["npm", "start"]

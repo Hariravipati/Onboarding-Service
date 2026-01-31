@@ -10,7 +10,7 @@ export class EobVerificaitonRequestService {
   ) {
 
   }
-  async getOTP(mobileNo: string) {
+  async getOTP(mobileNo: string,orgId:number) {
     const mobile = mobileNo.toString();
 
     // Rate limit

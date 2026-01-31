@@ -16,9 +16,18 @@ import { MobileOTP } from './entities/mobile-otp.entity';
 import { EobVerificationRepository } from './repository/eob.verification.repository';
 import { EobRequestController } from './Controller/eob-request.controller';
 import { CandidateController } from './Controller/candidate.controller';
+import { HealthController } from './Controller/health.controller';
 import { CandidateService } from './services/candidate.service';
 import { CandidateDetails } from './entities/candidate-details.entity';
 import { EOnboardingDocuments } from './entities/e-onboarding-documents.entity';
+import { QcVerification } from './entities/qc-verification.entity';
+import { CandidateRepository } from './repository/candidate.repository';
+import { QcVerificationService } from './services/qc-verification.service';
+import { QcVerificationRepository } from './repository/qc-verification.repository';
+import { S3StorageService } from '../../common/file-storage/s3-storage.service';
+import { AzureStorageService } from '../../common/file-storage/azure-storage.service';
+import { LocalStorageService } from '../../common/file-storage/local-storage.service';
+import { FileStorageFactory, FILE_STORAGE_SERVICE } from '../../common/file-storage/file-storage.factory';
 
 @Module({
   imports: [
@@ -32,11 +41,29 @@ import { EOnboardingDocuments } from './entities/e-onboarding-documents.entity';
       RequestStatusHistory,
       MobileOTP,
       CandidateDetails,
-      EOnboardingDocuments
+      EOnboardingDocuments,
+      QcVerification
     ]),
   ],
-  providers: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository,CandidateService],
-  controllers: [EobRequestController,EobVerificationController,CandidateController],
-  exports: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository,CandidateService],
+  providers: [
+    EOnboardingService,
+    EOnboardingRepository,
+    EOnboardingRequestService,
+    EobVerificaitonRequestService,
+    EobVerificationRepository,
+    // QcVerificationRepository,
+    // QcVerificationService,
+    CandidateRepository,
+    CandidateService,
+    S3StorageService,
+    AzureStorageService,
+    LocalStorageService,
+    {
+      provide: FILE_STORAGE_SERVICE,
+      useFactory: () => FileStorageFactory.createFileStorageService(),
+    },
+  ],
+  controllers: [EobRequestController,EobVerificationController,CandidateController,HealthController],
+  exports: [EOnboardingService,EOnboardingRepository,EOnboardingRequestService,EobVerificaitonRequestService,EobVerificationRepository,CandidateService,CandidateRepository,FILE_STORAGE_SERVICE],
 })
 export class EOnboardingModule {}

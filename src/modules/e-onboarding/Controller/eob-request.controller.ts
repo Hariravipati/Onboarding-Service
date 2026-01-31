@@ -1,12 +1,15 @@
 import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, Res, UseInterceptors } from '@nestjs/common';
 import { EOnboardingService } from '../services/e-onboarding.service';
 import { CreateEOnboardingRequestDto } from '../dto/e-onboarding-request.dto';
+import { EobRequestStatusQueryDto } from '../dto/eob-request-status.dto';
 import { EOnboardingRequestService } from '../services/e-onboardingRequest.service';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { OrgId } from '../../../common/interceptors/org-id.decorator';
+import { OrgIdInterceptor } from '../../../common/interceptors/org-id.interceptor';
 
 @ApiTags('Onboarding')
 @Controller('onboarding')
+@UseInterceptors(OrgIdInterceptor)
 export class EobRequestController {
   constructor(
     private readonly onboardingService: EOnboardingService,
@@ -15,23 +18,25 @@ export class EobRequestController {
   ) { }
 
   @Get('organizations')
-  getOrganizations() {
-    return this.onboardingService.findAllOrganizations();
+  getOrganizations(@OrgId() orgId: string) {
+    return this.onboardingService.findAllOrganizations(orgId);
   }
 
   @Get('org-formDetails')
   async getFormDetails(
-    @Query('orgId') orgId: number,
+    @OrgId() orgId: string,
+    @Query('orgId') queryOrgId: number,
     @Query('formMappingId') formMappingId: number
   ) {
-    return await this.onboardingService.getFormDetails(orgId, formMappingId)
+    return await this.onboardingService.getFormDetails(queryOrgId, formMappingId, orgId)
   }
 
   @Get('org-forms-list')
   async getFormlist(
-    @Query('orgId') orgId: number,
+    @OrgId() orgId: string,
+    @Query('orgId') queryOrgId: number,
   ) {
-    return await this.onboardingService.getOrgFormList(orgId)
+    return await this.onboardingService.getOrgFormList(queryOrgId)
   }
 
 
@@ -39,36 +44,55 @@ export class EobRequestController {
   @ApiOperation({ summary: 'Create EOB request' })
   @ApiBody({ type: CreateEOnboardingRequestDto })
   @ApiResponse({ status: 201, description: 'Request created successfully' })
-  async EobRequest(@Body() dto: CreateEOnboardingRequestDto) {
-    return await this.eOnboardingRequestService.saveRequest(dto);
+  async EobRequest(
+    @OrgId() orgId: number,
+    @Body() dto: CreateEOnboardingRequestDto
+  ) {
+    return await this.eOnboardingRequestService.saveRequest(dto, orgId);
   }
 
   @Get('eob-requests-by-orgId/:orgId')
   async getByOrg(
-    @Param('orgId', ParseIntPipe) orgId: number,
+    @OrgId() orgId: number,
   ) {
     return this.onboardingService.getEobRequestsByOrgId(orgId);
   }
 
 
+  @Get('eob-requests-status')
+  async getEobRequestsStatus(
+    @OrgId() orgId: string,
+    @Query() query: EobRequestStatusQueryDto,
+  ) {
+    return this.eOnboardingRequestService.getEobRequestsStatus(query);
+  }
+
   @Get('download-eob-template')
-  async downloadEobTemplate(@Query('format') format: string = 'csv', @Res() res) {
-    const result = await this.onboardingService.getEobRequestTemplate(format);
+  async downloadEobTemplate(
+    @OrgId() orgId: string,
+    @Query('format') format: string = 'csv',
+    @Res() res
+  ) {
+    const result = await this.onboardingService.getEobRequestTemplate(format, orgId);
     res.setHeader('Content-Type', result.contentType);
     res.setHeader('Content-Disposition', `attachment; filename="${result.filename}"`);
     res.send(result.data);
   }
 
-  // @Post('bulk-S3-upload-async')
-  // @UseInterceptors(FileInterceptor('file'))
-  // async uploadBulkFileAsync(@Body() body: Record<string, any>) {
-  //   try {
-  //     const { file } = body;
-  //     const result = await this.eOnboardingRequestService.bulkEobRequests(file);
-  //     return result;
-  //   } catch (error: any) {
-  //   }
-  // }
+  /* =========================
+     APPROVE EOB Request
+     ========================= */
+  @Post('eob-request/:requestId/approve')
+  async approveEobRequest(
+    @OrgId() orgId: string,
+    @Param('requestId', ParseIntPipe) requestId: number,
+    @Body() approvalData: { remarks?: string },
+  ) {
+    return await this.eOnboardingRequestService.approveEobRequest(requestId, orgId, approvalData.remarks);
+  }
+
+  
+
 
 }
 

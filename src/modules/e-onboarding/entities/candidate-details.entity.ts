@@ -4,15 +4,14 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   OneToOne,
-  JoinColumn,
 } from 'typeorm';
-import { EOnboardingResponse } from './e-onboarding-response.entity';
 import { EOnboardingDocuments } from './e-onboarding-documents.entity';
+import { EOnboardingResponse } from './e-onboarding-response.entity';
 
 @Entity('CandidateDetails')
 export class CandidateDetails {
 
-  @PrimaryGeneratedColumn({ name: 'CandidateId' })
+  @PrimaryGeneratedColumn({ name: 'CandidateId', type: 'int' })
   candidateId: number;
 
   @Column({ name: 'FullName', type: 'nvarchar', length: 100 })
@@ -22,50 +21,41 @@ export class CandidateDetails {
   email: string;
 
   @Column({ name: 'MobileNo', type: 'nvarchar', length: 20, nullable: true })
-  mobileNo: string;
+  mobileNo?: string;
 
   @Column({ name: 'AadharNo', type: 'nvarchar', length: 20, nullable: true })
-  aadharNo: string;
+  aadharNo?: string;
 
   @Column({ name: 'PanNo', type: 'nvarchar', length: 20, nullable: true })
-  panNo: string;
+  panNo?: string;
 
   @Column({ name: 'PassportNo', type: 'nvarchar', length: 20, nullable: true })
-  passportNo: string;
+  passportNo?: string;
 
   @Column({ name: 'UanNo', type: 'nvarchar', length: 20, nullable: true })
-  uanNo: string;
+  uanNo?: string;
 
   @Column({ name: 'CustomFieldsJson', type: 'nvarchar', nullable: true })
-  customFieldsJson: string;
+  customFieldsJson?: string;
+
+  @Column({ name: 'OtherDetailsJson', type: 'nvarchar', nullable: true })
+  otherDetailsJson?: string;
 
   @Column({
-    name: 'OtherDetailsJson',
-    type: 'nvarchar',
-    length: 'MAX',
-    nullable: true
+    name: 'CreatedDate',
+    type: 'datetime2',
+    default: () => 'SYSDATETIME()',
   })
-  otherDetailsJson: string;
-
-  @Column({ name: 'CreatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
   createdDate: Date;
 
   @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
-  updatedDate: Date;
+  updatedDate?: Date;
 
-
-  /* =========================
-     Relations
-     ========================= */
-
-  @OneToOne(() => EOnboardingResponse, response => response.candidateDetails)
-  @JoinColumn({ name: 'ResponseId' })
-  response: EOnboardingResponse;
-
-  @OneToMany(() => EOnboardingDocuments, doc => doc.candidate, {
-    cascade: true,
-  })
+  @OneToMany(() => EOnboardingDocuments, doc => doc.candidate)
   documents: EOnboardingDocuments[];
+
+  @OneToOne(() => EOnboardingResponse, response => response.candidate)
+  response: EOnboardingResponse;
 }
 
 
@@ -93,7 +83,6 @@ export function mapCandidateToDto(
 
     documents: entity.documents?.map(doc => ({
       candidateDocumentId: doc.candidateDocumentId,
-      docId: doc.docId,
       docType: doc.docType,
       docUrl: doc.docUrl,
     })),

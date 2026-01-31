@@ -12,19 +12,25 @@ import { CandidateDetails } from './modules/e-onboarding/entities/candidate-deta
 import { EOnboardingDocuments } from './modules/e-onboarding/entities/e-onboarding-documents.entity';
 import { EOnboardingModule } from './modules/e-onboarding/e-onboarding.module';
 import { MobileOTP } from './modules/e-onboarding/entities/mobile-otp.entity';
+import { QcVerification } from './modules/e-onboarding/entities/qc-verification.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ 
+      isGlobal: true,
+      envFilePath: '.env'
+    }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'mssql',
         host: config.get('DB_HOST'),
-        port: +config.get('DB_PORT'),
+        port: parseInt(config.get('DB_PORT')),
         username: config.get('DB_USERNAME'),
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
+        synchronize: true,
+        dropSchema: false,
         entities: [
           Organization,
           EOnboardingRequest,
@@ -37,10 +43,10 @@ import { MobileOTP } from './modules/e-onboarding/entities/mobile-otp.entity';
           EOnboardingDocuments,
           MobileOTP,
         ],
-        synchronize: false,
-        options: {
-          encrypt: config.get('DB_ENCRYPT') === 'true',
+        extra: {
           trustServerCertificate: config.get('DB_TRUST_SERVER_CERTIFICATE') === 'true',
+          encrypt: config.get('DB_ENCRYPT') === 'true',
+          enableArithAbort: true,
         },
       }),
     }),

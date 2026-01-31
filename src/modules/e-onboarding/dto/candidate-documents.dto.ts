@@ -15,19 +15,20 @@ export class CreateCandidateDocumentDto {
   @IsNotEmpty()
   docType: string;
 
-  // Use when document is already uploaded
-  @ValidateIf(o => !o.docBase64)
+  @ValidateIf(o => !o.docBuffer)
   @IsString()
   @IsOptional()
   docUrl?: string;
 
-  // Use when uploading a new document
   @ValidateIf(o => !o.docUrl)
-  @IsString()
   @IsOptional()
-  docBase64?: string;
+  docBuffer?: Buffer;
 
   @IsOptional()
   @IsString()
   fileName?: string;
+
+  @IsOptional()
+  @IsString()
+  contentType?: string;
 }

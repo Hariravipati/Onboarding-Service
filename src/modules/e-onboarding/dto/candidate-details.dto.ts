@@ -3,7 +3,10 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsArray,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { CreateCandidateDocumentDto } from './candidate-documents.dto';
  
 
@@ -44,5 +47,8 @@ export class CreateCandidateDto {
   otherDetailsJson?: any;
 
   @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateCandidateDocumentDto)
   documents?: CreateCandidateDocumentDto[];
 }

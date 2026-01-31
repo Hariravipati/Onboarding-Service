@@ -1,8 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { EOnboardingRequest } from './e-onboarding-request.entity';
 
 @Entity('RequestStatusHistory')
-@Index('IX_RequestHistory_RequestId', ['requestId'])
 export class RequestStatusHistory {
   @PrimaryGeneratedColumn({ name: 'HistoryId' })
   historyId: number;

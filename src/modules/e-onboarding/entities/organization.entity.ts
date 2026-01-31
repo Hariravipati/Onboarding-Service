@@ -1,6 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Index } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { OrgFormMapping } from './org-form-mapping.entity';
-import { EOnboardingRequest } from './e-onboarding-request.entity';
 
 @Entity('Organization')
 export class Organization {
@@ -10,7 +9,7 @@ export class Organization {
   @Column({ name: 'OrgName', type: 'nvarchar', length: 200 })
   orgName: string;
 
-  @Column({ name: 'OrgCode', type: 'nvarchar', length: 100, unique: true })
+  @Column({ name: 'OrgCode', type: 'nvarchar', length: 100 })
   orgCode: string;
 
   @Column({ name: 'Description', type: 'nvarchar', nullable: true })
@@ -25,8 +24,8 @@ export class Organization {
   @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
   updatedDate: Date;
 
-  @OneToMany(() => OrgFormMapping, mapping => mapping.organization)
-  formMappings: OrgFormMapping[];
+  // @OneToMany(() => OrgFormMapping, mapping => mapping.organization)
+  // formMappings: OrgFormMapping[];
 
   // @OneToMany(() => EOnboardingRequest, request => request.organization)
   // onboardingRequests: EOnboardingRequest[];

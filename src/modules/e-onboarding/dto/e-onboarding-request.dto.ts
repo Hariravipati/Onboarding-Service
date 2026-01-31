@@ -27,8 +27,5 @@ export class CreateEOnboardingRequestDto {
   status?: string; // default handled in entity
 
   @IsNumber()
-  orgId: number;
-
-  @IsNumber()
   formVersionId: number;
 }

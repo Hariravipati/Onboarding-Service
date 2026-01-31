@@ -13,7 +13,7 @@ export class EOnboardingService {
 
   /* -------------------- Organizations -------------------- */
 
-  async findAllOrganizations(): Promise<ApiResponse<Organization[]>> {
+  async findAllOrganizations(orgId: string): Promise<ApiResponse<Organization[]>> {
     const data = await this.eOnboardingRepository.getOrganizationList();
 
     return this.buildResponse(
@@ -47,10 +47,12 @@ export class EOnboardingService {
   async getFormDetails(
     orgId: number,
     formMappingId: number,
+   OrgId: string,
   ): Promise<ApiResponse<FormDetailsDto | null>> {
     const data = await this.eOnboardingRepository.getFormDetails(
       orgId,
       formMappingId,
+      
     );
 
     return this.buildResponseSingle(
@@ -60,7 +62,7 @@ export class EOnboardingService {
     );
   }
 
-  async getEobRequestTemplate(format: string = 'csv'): Promise<{ data: Buffer, contentType: string, filename: string }> {
+  async getEobRequestTemplate(format: string = 'csv', orgId: string): Promise<{ data: Buffer, contentType: string, filename: string }> {
     try {
       const headers = ['*Slno', 'Email', 'MobileNo', 'ExpiryDate'];
       const templateData = [headers];

@@ -2,11 +2,9 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  Index,
 } from 'typeorm';
 
 @Entity('EOnboardingRequest')
-@Index('IX_EOnboardingRequest_Status', ['status'])
 export class EOnboardingRequest {
 
   @PrimaryGeneratedColumn({ name: 'RequestId' })
@@ -28,7 +26,10 @@ export class EOnboardingRequest {
   expiryDate: Date;
 
   @Column({ name: 'Status', type: 'nvarchar', length: 50, default: 'PENDING' })
-  status: string;
+  status: string; // PENDING, QC_APPROVED, REJECTED, SUBMITTED
+
+  @Column({ name: 'Remarks', type: 'nvarchar', length: 500, nullable: true })
+  remarks?: string;
 
   @Column({ name: 'CreatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
   createdDate: Date;

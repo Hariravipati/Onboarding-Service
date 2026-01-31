@@ -7,6 +7,7 @@ import { Organization } from '../entities/organization.entity';
 import { OrgFormMapping } from '../entities/org-form-mapping.entity';
 import { FormVersion } from '../entities/form-version.entity';
 import { FormDetailsDto } from '../dto/form-details.dto';
+import { EobRequestStatusQueryDto, EobRequestStatusResponseDto } from '../dto/eob-request-status.dto';
 
 @Injectable()
 export class EOnboardingRepository {
@@ -160,6 +161,69 @@ export class EOnboardingRepository {
     }
   }
 
+  async getEobRequestsStatus(
+    query: EobRequestStatusQueryDto,
+  ): Promise<{ data: EobRequestStatusResponseDto[]; total: number; page: number; limit: number }> {
+    try {
+      const { page = 1, limit = 10, mobileNo, aadharNo, status } = query;
+      const offset = (page - 1) * limit;
+
+      const qb = this.requestRepository.createQueryBuilder('r')
+        .select([
+          'r.requestId',
+          'r.email',
+          'r.mobileNo',
+          'r.status',
+          'r.createdDate',
+          'r.updatedDate'
+        ])
+        .where('1=1');
+
+      if (mobileNo) {
+        qb.andWhere('r.mobileNo = :mobileNo', { mobileNo });
+      }
+
+      if (status) {
+        qb.andWhere('r.status = :status', { status });
+      }
+
+      const [requests, total] = await qb
+        .orderBy('r.createdDate', 'DESC')
+        .skip(offset)
+        .take(limit)
+        .getManyAndCount();
+
+      const data = requests.map(req => ({
+        requestId: req.requestId,
+        fullName: req.email.split('@')[0],
+        email: req.email,
+        mobileNo: req.mobileNo || '',
+        aadharNo: aadharNo || '',
+        status: req.status,
+        statusFullName: this.getStatusFullName(req.status),
+        createdDate: req.createdDate,
+        updatedDate: req.updatedDate
+      }));
+
+      return { data, total, page, limit };
+    } catch (err) {
+      this.logger.error('getEobRequestsStatus failed', err as any);
+      throw err;
+    }
+  }
+
+  private getStatusFullName(status: string): string {
+    const statusMap = {
+      'P': 'Pending',
+      'D': 'Draft',
+      'C': 'Completed',
+      'E': 'Expired',
+      'QA': 'QC Approved',
+      'QR': 'QC Rejected'
+    };
+    return statusMap[status] || status;
+  }
+
   async VerifyMobileNo(mobileNo: string): Promise<EOnboardingRequest[]> {
     try {
       return await this.requestRepository.find({
@@ -173,6 +237,41 @@ export class EOnboardingRepository {
     }
   }
 
-  
+  async approveEobRequest(requestId: number, remarks?: string): Promise<void> {
+    try {
+      await this.requestRepository.update(requestId, {
+        status: 'QA',
+        updatedDate: new Date(),
+        ...(remarks && { remarks })
+      });
+    } catch (err) {
+      this.logger.error('approveEobRequest failed', err as any);
+      throw err;
+    }
+  }
 
+  async rejectEobRequest(requestId: number, remarks?: string): Promise<void> {
+    try {
+      await this.requestRepository.update(requestId, {
+        status: 'QR',
+        updatedDate: new Date(),
+        ...(remarks && { remarks })
+      });
+    } catch (err) {
+      this.logger.error('rejectEobRequest failed', err as any);
+      throw err;
+    }
+  }
+
+  async submitEobRequest(requestId: number, orgId: number): Promise<void> {
+    try {
+      await this.requestRepository.update(requestId, {
+        status: 'C',
+        updatedDate: new Date()
+      });
+    } catch (err) {
+      this.logger.error('submitEobRequest failed', err as any);
+      throw err;
+    }
+  }
 }

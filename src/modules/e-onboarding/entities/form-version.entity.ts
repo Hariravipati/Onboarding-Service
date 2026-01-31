@@ -30,8 +30,8 @@ export class FormVersion {
   @JoinColumn({ name: 'FormId' })
   form: Forms;
 
-  @OneToMany(() => OrgFormMapping, mapping => mapping.formVersion)
-  orgMappings: OrgFormMapping[];
+  // @OneToMany(() => OrgFormMapping, mapping => mapping.formVersion)
+  // orgMappings: OrgFormMapping[];
 
   // @OneToMany(() => EOnboardingRequest, request => request.formVersion)
   // onboardingRequests: EOnboardingRequest[];
