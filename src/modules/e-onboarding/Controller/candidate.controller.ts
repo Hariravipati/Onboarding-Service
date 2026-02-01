@@ -8,12 +8,12 @@ import {
   Put,
   Query,
   UseInterceptors,
+  Req,
 } from '@nestjs/common';
 import { CreateCandidateDto } from '../dto/candidate-details.dto';
 
 import { UploadDocumentsDto } from '../dto/upload-documents.dto';
 import { CandidateService } from '../services/candidate.service';
-import { OrgId } from '../../../common/interceptors/org-id.decorator';
 import { OrgIdInterceptor } from '../../../common/interceptors/org-id.interceptor';
  
 @Controller('candidates')
@@ -25,7 +25,8 @@ export class CandidateController {
      GET Storage Info
      ========================= */
   @Get('storage-info')
-  getStorageInfo(@OrgId() orgId: number): any {
+  getStorageInfo(@Req() req: any): any {
+    const orgId = req.orgId;
     const provider = process.env.STORAGE_PROVIDER || 'LOCAL';
     return {
       orgId,
@@ -53,14 +54,14 @@ export class CandidateController {
      ========================= */
   @Post()
   async createCandidate(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Body() dto: CreateCandidateDto,
   ): Promise<any> {
-    try{
-     
-    return this.candidateService.createCandidate(dto, orgId);
-    }catch(err){
-      console.log("error in controller",err);
+    try {
+      const orgId = req.orgId;
+      return this.candidateService.createCandidate(dto, orgId);
+    } catch (err) {
+      console.log("error in controller", err);
       throw err;
     }
   }
@@ -70,10 +71,11 @@ export class CandidateController {
      ========================= */
   @Put(':candidateId')
   async updateCandidate(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
     @Body() dto: any,
   ): Promise<any> {
+    const orgId = req.orgId;
     return this.candidateService.updateCandidate(candidateId, dto, orgId);
   }
 
@@ -82,9 +84,10 @@ export class CandidateController {
      ========================= */
   @Get(':candidateId')
   async getCandidateById(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
   ): Promise<any> {
+    const orgId = req.orgId;
     return this.candidateService.getCandidateById(candidateId, orgId);
   }
 
@@ -93,10 +96,11 @@ export class CandidateController {
      ========================= */
   @Get(':candidateId/documents/preview')
   async getDocumentsPreview(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
     @Query('docType') docType?: string,
   ): Promise<any> {
+    const orgId = req.orgId;
     return this.candidateService.getDocumentsPreview(candidateId, docType, orgId);
   }
 
@@ -105,10 +109,11 @@ export class CandidateController {
      ========================= */ 
   @Post(':candidateId/documents')
   async uploadDocuments(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
     @Body() dto: UploadDocumentsDto,
   ): Promise<any> {
+    const orgId = req.orgId;
     return this.candidateService.uploadDocuments(candidateId, dto.documents, orgId);
   }
 
@@ -117,9 +122,10 @@ export class CandidateController {
      ========================= */
   @Get(':candidateId/preview')
   async getCandidateForPreview(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
   ): Promise<any> {
+    const orgId = req.orgId;
     return this.candidateService.getCandidateForPreview(candidateId, orgId);
   }
 
@@ -128,10 +134,11 @@ export class CandidateController {
      ========================= */
   @Post(':candidateId/approve')
   async approveCandidate(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
     @Body() approvalData: { remarks?: string },
   ): Promise<any> {
+    const orgId = req.orgId;
     return this.candidateService.approveCandidate(candidateId, orgId, approvalData.remarks);
   }
 
@@ -140,10 +147,11 @@ export class CandidateController {
      ========================= */
   @Post(':candidateId/qc-verification')
   async createQcVerification(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
     @Body() qcData: { docType: string; status: string; remarks?: string },
   ): Promise<any> {
+    const orgId = req.orgId;
     return this.candidateService.createQcVerification(candidateId, orgId, qcData);
   }
 
@@ -152,9 +160,10 @@ export class CandidateController {
      ========================= */
   @Get(':candidateId/qc-verification')
   async getQcVerificationStatus(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
   ): Promise<any> {
+    const orgId = req.orgId;
     return this.candidateService.getQcVerificationStatus(candidateId, orgId);
   }
 
@@ -163,10 +172,11 @@ export class CandidateController {
      ========================= */ 
   @Post(':candidateId/submit')
   async submitCandidate(
-    @OrgId() orgId: number,
+    @Req() req: any,
     @Param('candidateId', ParseIntPipe) candidateId: number,
   ): Promise<any> {
     try {
+      const orgId = req.orgId;
       return this.candidateService.submitCandidate(candidateId, orgId);
     } catch (err) {
       console.log('error in controller', err);

@@ -15,10 +15,13 @@ export class Organization {
   @Column({ name: 'Description', type: 'nvarchar', nullable: true })
   description: string;
 
-  @Column({ name: 'IsActive', type: 'bit', default: true })
-  isActive: boolean;
+@Column({
+  name: 'IsActive',
+  type: 'bit' 
+})
+isActive: boolean;
 
-  @Column({ name: 'CreatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
+  @Column({ name: 'CreatedDate', type: 'datetime2' })
   createdDate: Date;
 
   @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })

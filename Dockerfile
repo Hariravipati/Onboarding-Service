@@ -1,27 +1,29 @@
-# Use the official Node.js image as a base
-FROM node:20
+# ---------- Build Stage ----------
+FROM node:20 AS builder
 
-# Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json (if available)
 COPY package*.json ./
+RUN npm ci
 
-# Install the app dependencies
-RUN npm install
-
-# Copy the rest of your application code
 COPY . .
-
-# Build the application
 RUN npm run build
 
-# Expose the port your app runs on (adjust if necessary)
-EXPOSE 3004
 
-# Health check
+# ---------- Production Stage ----------
+FROM node:20-slim
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY --from=builder /usr/src/app/dist ./dist
+
+EXPOSE 3001
+
+# Healthcheck using node (no curl needed)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3004/health || exit 1
+  CMD node -e "require('http').get('http://localhost:3001/health', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
 
-# Command to start your app
-CMD ["npm", "start"]
+CMD ["node", "dist/main.js"]

@@ -8,26 +8,10 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3001
-      - DB_HOST=sqlserver
+      - DB_HOST=192.168.1.20   # on-prem SQL Server
       - DB_PORT=1433
       - DB_USERNAME=sa
-      - DB_PASSWORD=YourStrong@Passw0rd
+      - DB_PASSWORD=Sqlserver123$
       - DB_DATABASE=OnboardingDB
-    depends_on:
-      - sqlserver
     volumes:
       - ./uploads:/app/uploads
-
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong@Passw0rd
-      - MSSQL_PID=Express
-    ports:
-      - "1433:1433"
-    volumes:
-      - sqlserver_data:/var/opt/mssql
-
-volumes:
-  sqlserver_data:
