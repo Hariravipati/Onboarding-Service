@@ -11,7 +11,7 @@ import {
     Req,
 } from '@nestjs/common';
 import { OrgIdInterceptor } from '../../../common/interceptors/org-id.interceptor';
-import { CandidateService } from '../Services/candidate.service';
+import { CandidateService } from '../services/candidate.service';
 import { QcVerificationService } from '../services/qc-verification.service';    
 
 @Controller('qc-verification')
@@ -30,7 +30,7 @@ export class QcVerificationController {
     @Query('limit') limit: number = 10,
   ): Promise<any> {
     const orgId = req.orgId;
-     return this.qc.getPendindQc();
+    return this.qcVerificationService.getPendindQc([]);
   }
   
   @Get(':candidateId/qcPreview')
@@ -39,7 +39,7 @@ export class QcVerificationController {
     @Param('candidateId', ParseIntPipe) candidateId: number,
   ): Promise<any> {
     const orgId = req.orgId;
-    return this.qcVerificationService.
+    return this.qcVerificationService.getQcVerificationStatus(candidateId, orgId);
   }
 
   @Post('qc-approve-by-Documnet')
@@ -48,7 +48,7 @@ export class QcVerificationController {
     @Body() dto: any,
   ): Promise<any> {
     const orgId = req.orgId;
-    return this.candidateService.approveByDocument(dto);
+    return this.qcVerificationService.updateQcVerification(dto.candidateId, dto.documentId, dto);
   }
 
 

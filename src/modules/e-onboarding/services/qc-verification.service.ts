@@ -98,14 +98,14 @@ export class QcVerificationService {
     }
   }
 
-  async getPendindQc(candidateId[]: number): Promise<any> {
+  async getPendindQc(candidateIds: number[]): Promise<any> {
     try {
-      const pendingQc = await this.qcVerificationRepository.getAllPendingQcVerifications(candidateId);
+      const pendingQc = await this.qcVerificationRepository.getAllPendingQcVerifications(candidateIds[0]);
       const filteredQc = pendingQc.filter(qc => qc.qcStatus === 'PENDING');
-      const candidateDetails = await this.candidateRepository.findCandidateById(candidateId)
+      const candidateDetails = await this.candidateRepository.findCandidateById(candidateIds[0])
 
       return {
-        candidateId: candidateId,
+        candidateId: candidateIds[0],
         name: candidateDetails.fullName,
         mobile: candidateDetails.mobileNo,
         aadhar: candidateDetails.aadharNo,
@@ -113,7 +113,7 @@ export class QcVerificationService {
       }
 
     } catch (error) {
-      this.logger.error('Failed to get pending QC verifications', error.stack, { candidateId });
+      this.logger.error('Failed to get pending QC verifications', error.stack, { candidateIds });
       throw error;
     }
   }
