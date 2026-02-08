@@ -47,3 +47,13 @@ export enum UPLOAD_STATUS
   FAILED = 'FAILED',
   COMPLETED = 'upload-completed',
 }
+
+
+export enum EOnboardingStatus {
+  PENDING = 'P',
+  DRAFT = 'D',
+  COMPLETED = 'C',
+  EXPIRED = 'E',
+  REJECTED = 'QR',
+  APPROVED = 'QA'
+}

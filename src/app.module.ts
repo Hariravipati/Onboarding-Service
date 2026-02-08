@@ -30,8 +30,7 @@ import { QcVerification } from './modules/e-onboarding/entities/qc-verification.
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
         synchronize: false,
-        dropSchema: false,
-        logging: ['error', 'schema'],
+      
         entities: [
           // Organization,
           EOnboardingRequest,

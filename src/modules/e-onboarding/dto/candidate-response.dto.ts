@@ -1,4 +1,5 @@
 export class CandidateDetailsResponseDto {
+  eobRequestId: number;
   candidateId: number;
   fullName: string;
   email: string;

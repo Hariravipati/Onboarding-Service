@@ -3,6 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { EOnboardingStatus } from '../../../common/enums/global_enums';
 
 @Entity('EOnboardingRequest')
 export class EOnboardingRequest {
@@ -25,8 +26,18 @@ export class EOnboardingRequest {
   @Column({ name: 'ExpiryDate', type: 'datetime2' })
   expiryDate: Date;
 
-  @Column({ name: 'Status', type: 'nvarchar', length: 50, default: 'PENDING' })
-  status: string; // PENDING, QC_APPROVED, REJECTED, SUBMITTED
+ @Column({
+  name: 'Status',
+  type: 'nvarchar',
+  length: 1,
+  default: EOnboardingStatus.PENDING
+})
+status: EOnboardingStatus;
+  @Column({ name: 'AccessToken', type: 'nvarchar', length: 500 , nullable: true})
+  accessToken: string;
+
+  @Column({ name: 'IsLinkUsed', type: 'bit', default: false })
+  isLinkUsed: boolean;
 
   @Column({ name: 'Remarks', type: 'nvarchar', length: 500, nullable: true })
   remarks?: string;
@@ -35,33 +46,5 @@ export class EOnboardingRequest {
   createdDate: Date;
 
   @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
-  updatedDate: Date;
-
-  /* =========================
-     Relations
-     ========================= */
-
-  // @ManyToOne(() => Organization, org => org.onboardingRequests, {
-  //   onDelete: 'CASCADE',
-  // })
-  // // @JoinColumn({ name: 'OrgId' })
-  // // @Index('IX_EOnboardingRequest_OrgId')
-  // // organization: Organization;
-
-  // // @ManyToOne(() => FormVersion, version => version.onboardingRequests, {
-  // //   onDelete: 'NO ACTION',
-  // // })
-  // // @JoinColumn({ name: 'FormVersionId' })
-  // // @Index('IX_EOnboardingRequest_FormVersionId')
-  // // formVersion: FormVersion;
-
-
-
-  // @OneToOne(() => EOnboardingResponse, response => response.request)
-  // response: EOnboardingResponse;
-
-  // @OneToMany(() => RequestStatusHistory, history => history.request, {
-  //   cascade: true,
-  // })
-  // statusHistory: RequestStatusHistory[];
+  updatedDate?: Date;
 }

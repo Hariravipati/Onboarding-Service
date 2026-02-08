@@ -11,6 +11,7 @@ import { CandidateDetailsResponseDto } from '../dto/candidate-response.dto';
 import { FILE_STORAGE_SERVICE } from 'src/common/file-storage/file-storage.factory';
 import { IFileStorageService } from 'src/common/file-storage/file-storage.interface';
 import { QcVerificationService } from './qc-verification.service';
+import { EOnboardingRequestService } from './e-onboardingRequest.service';
 
 
 @Injectable()
@@ -20,8 +21,10 @@ export class CandidateService {
     private readonly candidateRepository: CandidateRepository,
     @Inject(FILE_STORAGE_SERVICE)
     private readonly fileStorageService: IFileStorageService,
-
     private readonly qcVerificationService: QcVerificationService,
+    
+    private readonly eobOoardingRequestService : EOnboardingRequestService
+
   ) {}
 
   async createCandidate(
@@ -57,7 +60,7 @@ export class CandidateService {
       
       if (dto.documents) {
         const documentsWithUrls = await this.processDocumentUploads(dto.documents);
-        const savedDocuments = await this.candidateRepository.saveDocuments(savedCandidate, documentsWithUrls);
+        await this.candidateRepository.saveDocuments(savedCandidate, documentsWithUrls);
         // QC verification entries will be created during final submit
         this.logger.log('Documents saved', { candidateId: savedCandidate.candidateId, docCount: dto.documents.length });
       }
@@ -176,7 +179,9 @@ export class CandidateService {
 
   async submitCandidate(candidateId: number, orgId: number): Promise<{ message: string }> {
     try {
+      this.logger.log('Submitting candidate', { candidateId, orgId });
       const candidate = await this.candidateRepository.findCandidateById(candidateId);
+      this.logger.log('Found candidate for submission', { candidateId, fullName: candidate.fullName } );
 
       if (!candidate) {
         throw new NotFoundException('Candidate not found');
@@ -184,26 +189,20 @@ export class CandidateService {
 
       // Ensure QC verification entries exist for current documents (create on submit)
       const documents = await this.candidateRepository.getDocumentsByType(candidateId);
+      this.logger.log('Found documents for QC creation', { candidateId, docCount: documents.length });
       if (documents?.length) {
         const existingQc = await this.qcVerificationService.getQcVerificationStatus(candidateId, orgId);
+        this.logger.log('Existing QC verification entries', { candidateId, count: existingQc.length });
         const existingDocTypes = existingQc.map(q => q.docType);
+        this.logger.log('Comparing doc types for QC creation', { existing: existingDocTypes, incoming: existingDocTypes });
         const docsToCreate = documents.filter(doc => !existingDocTypes.includes(doc.docType));
         if (docsToCreate.length) {
           await this.qcVerificationService.createQcVerificationEntries(candidateId, docsToCreate);
           this.logger.log('QC verification entries created on submit', { candidateId, createdCount: docsToCreate.length });
         }
       }
-
-      // Check if all documents have QC verification approved
-      const qcValidation = await this.qcVerificationService.validateAllQcApproved(candidateId);
-      
-      // if (!qcValidation.isAllApproved) {
-      //   throw new BadRequestException(
-      //     `Cannot submit candidate. Pending QC verification for: ${qcValidation.pendingDocTypes.join(', ')}`
-      //   );
-      // }
-
       await this.candidateRepository.submitCandidate(candidateId);
+      await this.eobOoardingRequestService.submitEobRequest(candidate.eobRequestId, orgId);
       this.logger.log('Candidate submitted successfully', { candidateId, orgId });
       
       return { message: 'Candidate submitted successfully' };
@@ -327,20 +326,21 @@ export class CandidateService {
     }
   }
 
-  async createQcVerification(
-    candidateId: number,
-    orgId: number,
-    qcData: { docType: string; status: string; remarks?: string },
-  ): Promise<{ message: string }> {
-    // return await this.qcVerificationService.updateQcVerification(candidateId, orgId, qcData);
-    return { message: 'QC verification temporarily disabled' };
-  }
-
   async getQcVerificationStatus(
     candidateId: number,
     orgId: number,
   ): Promise<any[]> {
-    // return await this.qcVerificationService.getQcVerificationStatus(candidateId, orgId);
-    return [];
+    const result =   await this.qcVerificationService.getQcVerificationStatus(candidateId, orgId);
+     return [];
+  }
+
+
+   async getPendingVerfifcationRequests(
+    candidateId: number,
+    orgId: number,
+  ): Promise<any[]> {
+    const result =   await this.qcVerificationService.getQcVerificationStatus(candidateId, orgId);
+    const filteredResult = result.filter(item => item.qcStatus === 'PENDING');
+    return filteredResult;
   }
 }

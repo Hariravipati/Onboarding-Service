@@ -6,6 +6,7 @@ import { GlobalExceptionFilter } from './filters/global-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   const logger = new Logger('Bootstrap');
   
   try {

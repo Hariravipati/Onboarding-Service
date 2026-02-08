@@ -14,6 +14,9 @@ export class CandidateDetails {
   @PrimaryGeneratedColumn({ name: 'CandidateId', type: 'int' })
   candidateId: number;
 
+  @Column({ name: 'EobRequestId', type: 'int', nullable: true })
+  eobRequestId?: number;
+
   @Column({ name: 'FullName', type: 'nvarchar', length: 100 })
   fullName: string;
 
