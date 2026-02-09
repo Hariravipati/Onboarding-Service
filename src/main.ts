@@ -6,6 +6,7 @@ import { GlobalExceptionFilter } from './filters/global-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   const logger = new Logger('Bootstrap');
   
   try {
@@ -19,7 +20,7 @@ async function bootstrap() {
     logger.log('Global exception filter and response interceptor registered');
 
     const config = new DocumentBuilder()
-      .setTitle('Onboarding Service API')
+      .setTitle('E-Onboarding Service API')
       .setDescription('NestJS Onboarding Service with MSSQL')
       .setVersion('1.0')
       .build();

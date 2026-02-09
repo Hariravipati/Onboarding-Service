@@ -8,6 +8,7 @@ import { OrgFormMapping } from '../entities/org-form-mapping.entity';
 import { FormVersion } from '../entities/form-version.entity';
 import { FormDetailsDto } from '../dto/form-details.dto';
 import { EobRequestStatusQueryDto, EobRequestStatusResponseDto } from '../dto/eob-request-status.dto';
+import { EOnboardingStatus } from '../../../common/enums/global_enums';
 
 @Injectable()
 export class EOnboardingRepository {
@@ -124,12 +125,29 @@ export class EOnboardingRepository {
     }
   }
 
+  async findByTokenAndEobRequestId(token: string, eobRequestId: number): Promise<EOnboardingRequest | null> {
+    return this.requestRepository.findOne({
+      where: {
+        accessToken: token,
+        requestId: eobRequestId // or candidateId if you have a separate column
+      }
+    });
+  }
+
   async findPendingRequest(email: string, mobileNo?: string): Promise<EOnboardingRequest | null> {
     return await this.requestRepository.findOne({
       where: [
-        { email, status: 'P' },
-        ...(mobileNo ? [{ mobileNo, status: 'P' }] : []),
+        { email, status: EOnboardingStatus.PENDING },
+        ...(mobileNo ? [{ mobileNo, status: EOnboardingStatus.PENDING }] : []),
       ],
+    });
+  }
+
+
+  async getByStatus(status: EOnboardingStatus ,  orgId: number, UserId:string): Promise<EOnboardingRequest[]> {
+    return this.requestRepository.find({
+      where: { status, orgId },
+      order: { createdDate: 'DESC' }, // optional but useful
     });
   }
 
@@ -240,7 +258,7 @@ export class EOnboardingRepository {
   async approveEobRequest(requestId: number, remarks?: string): Promise<void> {
     try {
       await this.requestRepository.update(requestId, {
-        status: 'QA',
+        status:  EOnboardingStatus.APPROVED,
         updatedDate: new Date(),
         ...(remarks && { remarks })
       });
@@ -253,7 +271,7 @@ export class EOnboardingRepository {
   async rejectEobRequest(requestId: number, remarks?: string): Promise<void> {
     try {
       await this.requestRepository.update(requestId, {
-        status: 'QR',
+        status: EOnboardingStatus.REJECTED,
         updatedDate: new Date(),
         ...(remarks && { remarks })
       });
@@ -263,10 +281,10 @@ export class EOnboardingRepository {
     }
   }
 
-  async submitEobRequest(requestId: number, orgId: number): Promise<void> {
+  async submitEobRequest(requestId: number): Promise<void> {
     try {
       await this.requestRepository.update(requestId, {
-        status: 'C',
+         status: EOnboardingStatus.COMPLETED,
         updatedDate: new Date()
       });
     } catch (err) {

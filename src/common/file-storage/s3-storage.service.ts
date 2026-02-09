@@ -9,10 +9,17 @@ export class S3StorageService implements IFileStorageService {
   private readonly bucketName = process.env.AWS_S3_BUCKET_NAME || process.env.S3_BUCKET_NAME || 'onboarding-documents';
 
   constructor() {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    
     this.s3 = new S3({
-      region: process.env.AWS_REGION || 'us-east-1',
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: 'ap-south-1',
+      accessKeyId: 'AKIA2U46AP7UXR5AA5RY',
+      secretAccessKey: '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',
+      httpOptions: {
+        agent: new (require('https').Agent)({
+          rejectUnauthorized: false
+        })
+      }
     });
   }
 

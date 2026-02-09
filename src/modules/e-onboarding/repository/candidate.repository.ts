@@ -21,8 +21,8 @@ export class CandidateRepository {
     private readonly responseRepo: Repository<EOnboardingResponse>,
   ) {}
 
-  async createCandidate(candidateData: Partial<CandidateDetails>): Promise<CandidateDetails> {
-    try {
+    async createCandidate(candidateData: Partial<CandidateDetails>): Promise<CandidateDetails> {
+      try {
       const candidate = this.candidateRepo.create(candidateData);
       const savedCandidate = await this.candidateRepo.save(candidate);
       
@@ -52,6 +52,7 @@ export class CandidateRepository {
 
   async findCandidateById(candidateId: number): Promise<CandidateDetailsResponseDto | null> {
     try {
+      this.logger.debug(`Finding candidate by ID: ${candidateId}`);
       const candidate = await this.candidateRepo.findOne({
         where: { candidateId },
         relations: ['documents'],
@@ -203,6 +204,7 @@ export class CandidateRepository {
 
   private mapToResponseDto(candidate: CandidateDetails): CandidateDetailsResponseDto {
     return {
+      eobRequestId:candidate.eobRequestId, 
       candidateId: candidate.candidateId,
       fullName: candidate.fullName,
       email: candidate.email,

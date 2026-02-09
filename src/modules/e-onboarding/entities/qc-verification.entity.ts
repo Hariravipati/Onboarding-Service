@@ -1,9 +1,5 @@
 import { PrimaryGeneratedColumn } from "typeorm/decorator/columns/PrimaryGeneratedColumn";
 import { Entity } from "typeorm/decorator/entity/Entity";
-import { JoinColumn } from "typeorm/decorator/relations/JoinColumn";
-import { ManyToOne } from "typeorm/decorator/relations/ManyToOne";
-import { EOnboardingDocuments } from "./e-onboarding-documents.entity";
-import { CandidateDetails } from "./candidate-details.entity";
 import { Column } from "typeorm/decorator/columns/Column";
 
 @Entity('QcVerification')
@@ -12,13 +8,11 @@ export class QcVerification {
   @PrimaryGeneratedColumn({ name: 'QcVerificationId', type: 'int' })
   qcVerificationId: number;
 
-  @ManyToOne(() => CandidateDetails, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'CandidateId' })
-  candidate: CandidateDetails;
+  @Column({ name: 'CandidateId', type: 'int' })
+  candidateId: number;
 
-  @ManyToOne(() => EOnboardingDocuments, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'DocumentId' })
-  document: EOnboardingDocuments;
+  @Column({ name: 'DocumentId', type: 'int', nullable: true })
+  documentId: number;
 
   @Column({ name: 'DocType', type: 'nvarchar', length: 50 })
   docType: string;

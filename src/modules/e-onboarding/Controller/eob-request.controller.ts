@@ -33,7 +33,6 @@ export class EobRequestController {
 
   @Get('org-forms-list')
   async getFormlist(
-    @OrgId() orgId: string,
     @Query('orgId') queryOrgId: number,
   ) {
     return await this.onboardingService.getOrgFormList(queryOrgId)
@@ -51,6 +50,16 @@ export class EobRequestController {
     return await this.eOnboardingRequestService.saveRequest(dto, orgId);
   }
 
+
+  @Get('validate-link')
+  async validateLink(
+    @Query('token') token: string,
+    @Query('candidateId') eboRequestId: number
+  ) {
+    this
+    return this.eOnboardingRequestService.verifyTokenAndRequestId(token, eboRequestId);
+  }
+
   @Get('eob-requests-by-orgId/:orgId')
   async getByOrg(
     @OrgId() orgId: number,
@@ -58,10 +67,8 @@ export class EobRequestController {
     return this.onboardingService.getEobRequestsByOrgId(orgId);
   }
 
-
   @Get('eob-requests-status')
   async getEobRequestsStatus(
-    @OrgId() orgId: string,
     @Query() query: EobRequestStatusQueryDto,
   ) {
     return this.eOnboardingRequestService.getEobRequestsStatus(query);
@@ -91,8 +98,19 @@ export class EobRequestController {
     return await this.eOnboardingRequestService.approveEobRequest(requestId, orgId, approvalData.remarks);
   }
 
-  
 
+  /* =========================
+    @Get EOB Request Status
+    ========================= */
+ 
+    @Get('get-eob-request-by-status')
+    async getEOBrequestByStaus(
+      @OrgId() orgId: number,
+      @Query('status') status: string,
+      @Query('UserId') UserId: string
+    ) {
+      return await this.eOnboardingRequestService.getEOBrequestByStaus(status as any, orgId, UserId);   
+    }
 
 }
 
