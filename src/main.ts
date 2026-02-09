@@ -20,7 +20,7 @@ async function bootstrap() {
     logger.log('Global exception filter and response interceptor registered');
 
     const config = new DocumentBuilder()
-      .setTitle('Onboarding Service API')
+      .setTitle('E-Onboarding Service API')
       .setDescription('NestJS Onboarding Service with MSSQL')
       .setVersion('1.0')
       .build();
