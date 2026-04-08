@@ -16,19 +16,19 @@ export class EOnboardingResponse {
   @Column({ name: 'CandidateId', type: 'int' })
   candidateId: number;
 
-  @Column({ name: 'IsSaved', type: 'bit', default: false })
+  @Column({ name: 'IsSaved', type: 'boolean', default: false })
   isSaved: boolean;
 
-  @Column({ name: 'IsCompleted', type: 'bit', default: false })
+  @Column({ name: 'IsCompleted', type: 'boolean', default: false })
   isCompleted: boolean;
 
-  @Column({ name: 'Status', type: 'nvarchar', length: 20, nullable: true })
+  @Column({ name: 'Status', type: 'varchar', length: 20, nullable: true })
   status?: string;
 
-  @Column({ name: 'Remarks', type: 'nvarchar', length: 500, nullable: true })
+  @Column({ name: 'Remarks', type: 'varchar', length: 500, nullable: true })
   remarks?: string;
 
-  @Column({ name: 'UpdatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
+  @Column({ name: 'UpdatedDate', type: 'timestamp', default: () => 'NOW()' })
   updatedDate: Date;
 
   @OneToOne(() => CandidateDetails, candidate => candidate.response)

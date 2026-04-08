@@ -6,25 +6,25 @@ export class Organization {
   @PrimaryGeneratedColumn({ name: 'OrgId' })
   orgId: number;
 
-  @Column({ name: 'OrgName', type: 'nvarchar', length: 200 })
+  @Column({ name: 'OrgName', type: 'varchar', length: 200 })
   orgName: string;
 
-  @Column({ name: 'OrgCode', type: 'nvarchar', length: 100 })
+  @Column({ name: 'OrgCode', type: 'varchar', length: 100 })
   orgCode: string;
 
-  @Column({ name: 'Description', type: 'nvarchar', nullable: true })
+  @Column({ name: 'Description', type: 'varchar', nullable: true })
   description: string;
 
 @Column({
   name: 'IsActive',
-  type: 'bit' 
+  type: 'boolean'
 })
 isActive: boolean;
 
-  @Column({ name: 'CreatedDate', type: 'datetime2' })
+  @Column({ name: 'CreatedDate', type: 'timestamp' })
   createdDate: Date;
 
-  @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
+  @Column({ name: 'UpdatedDate', type: 'timestamp', nullable: true })
   updatedDate: Date;
 
   // @OneToMany(() => OrgFormMapping, mapping => mapping.organization)

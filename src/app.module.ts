@@ -23,14 +23,14 @@ import { QcVerification } from './modules/e-onboarding/entities/qc-verification.
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        type: 'mssql',
+        type: 'postgres',
         host: process.env.DB_HOST,
-        port:parseInt(process.env.DB_PORT) || 1433,
-        username:  process.env.DB_USERNAME,
+        port: parseInt(process.env.DB_PORT) || 5432,
+        username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
-        synchronize: false,
-      
+        synchronize: true,
+
         entities: [
           // Organization,
           EOnboardingRequest,
@@ -44,11 +44,7 @@ import { QcVerification } from './modules/e-onboarding/entities/qc-verification.
           MobileOTP,
           QcVerification,
         ],
-        extra: {
-          trustServerCertificate: config.get('DB_TRUST_SERVER_CERTIFICATE') === 'true',
-          encrypt: config.get('DB_ENCRYPT') === 'true',
-          enableArithAbort: true,
-        },
+        ssl: config.get('DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
       }),
     }),
     EOnboardingModule,

@@ -17,13 +17,13 @@ export class FormVersion {
   @Column({ name: 'FormJson', type: 'text' })
   formJson: string;
 
-  @Column({ name: 'IsActive', type: 'bit', default: true })
+  @Column({ name: 'IsActive', type: 'boolean', default: true })
   isActive: boolean;
 
-  @Column({ name: 'CreatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
+  @Column({ name: 'CreatedDate', type: 'timestamp', default: () => 'NOW()' })
   createdDate: Date;
 
-  @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
+  @Column({ name: 'UpdatedDate', type: 'timestamp', nullable: true })
   updatedDate: Date;
 
   @ManyToOne(() => Forms, form => form.versions)

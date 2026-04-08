@@ -9,13 +9,13 @@ export class RequestStatusHistory {
   @Column({ name: 'RequestId' })
   requestId: number;
 
-  @Column({ name: 'OldStatus', type: 'nvarchar', length: 50, nullable: true })
+  @Column({ name: 'OldStatus', type: 'varchar', length: 50, nullable: true })
   oldStatus: string;
 
-  @Column({ name: 'NewStatus', type: 'nvarchar', length: 50, nullable: true })
+  @Column({ name: 'NewStatus', type: 'varchar', length: 50, nullable: true })
   newStatus: string;
 
-  @Column({ name: 'ChangedAt', type: 'datetime2', default: () => 'SYSDATETIME()' })
+  @Column({ name: 'ChangedAt', type: 'timestamp', default: () => 'NOW()' })
   changedAt: Date;
 
   // @ManyToOne(() => EOnboardingRequest, request => request.statusHistory)

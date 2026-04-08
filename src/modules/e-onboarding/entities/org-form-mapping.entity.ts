@@ -12,10 +12,10 @@ export class OrgFormMapping {
   @Column({ name: 'FormVersionId' })
   formVersionId: number;
 
-  @Column({ name: 'IsActive', type: 'bit', default: true })
+  @Column({ name: 'IsActive', type: 'boolean', default: true })
   isActive: boolean;
 
-  @Column({ name: 'CreatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
+  @Column({ name: 'CreatedDate', type: 'timestamp', default: () => 'NOW()' })
   createdDate: Date;
 
   @ManyToOne(() => FormVersion)
