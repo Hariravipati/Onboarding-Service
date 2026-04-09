@@ -17,7 +17,7 @@ export class QcVerificationRepository {
   private escapeValue(value: any): string {
     if (value === null || value === undefined) return 'NULL';
     if (typeof value === 'number') return value.toString();
-    return `N'${value.toString().replace(/'/g, "''")}'`;
+    return `'${value.toString().replace(/'/g, "''")}'`;
   }
 
   async createQcVerificationEntries(candidateId: number, documents: EOnboardingDocuments[]): Promise<void> {
@@ -25,6 +25,7 @@ export class QcVerificationRepository {
       const qcEntries = documents.map(doc => ({
         candidateId,
         documentId: doc.candidateDocumentId,
+        docType: doc.docType,
         qcStatus: 'PENDING'
       }));
 
@@ -37,7 +38,7 @@ export class QcVerificationRepository {
       }
 
       for (const entry of qcEntries) {
-        const sql = `INSERT INTO QcVerification (CandidateId, DocumentId, QcStatus, CreatedDate) VALUES (${this.escapeValue(entry.candidateId)}, ${this.escapeValue(entry.documentId)}, ${this.escapeValue(entry.qcStatus)}, GETDATE())`;
+        const sql = `INSERT INTO "QcVerification" ("CandidateId", "DocumentId", "DocType", "QcStatus", "CreatedDate") VALUES (${this.escapeValue(entry.candidateId)}, ${this.escapeValue(entry.documentId)}, ${this.escapeValue(entry.docType)}, ${this.escapeValue(entry.qcStatus)}, NOW())`;
         await this.dataSource.query(sql);
       }
     } catch (err) {
@@ -63,7 +64,7 @@ export class QcVerificationRepository {
         this.logger.warn('Repository update failed, falling back to raw SQL', repoErr as any);
       }
 
-      const sql = `UPDATE QcVerification SET QcStatus = ${this.escapeValue(qcData.status)}, QcRemarks = ${this.escapeValue(qcData.remarks)}, VerifiedBy = ${this.escapeValue(qcData.verifiedBy)}, UpdatedDate = GETDATE() WHERE CandidateId = ${this.escapeValue(candidateId)} AND DocumentId = ${this.escapeValue(documentId)}`;
+      const sql = `UPDATE "QcVerification" SET "QcStatus" = ${this.escapeValue(qcData.status)}, "QcRemarks" = ${this.escapeValue(qcData.remarks)}, "VerifiedBy" = ${this.escapeValue(qcData.verifiedBy)}, "UpdatedDate" = NOW() WHERE "CandidateId" = ${this.escapeValue(candidateId)} AND "DocumentId" = ${this.escapeValue(documentId)}`;
       await this.dataSource.query(sql);
     } catch (err) {
       this.logger.error('updateQcVerification failed', err as any);
@@ -74,8 +75,7 @@ export class QcVerificationRepository {
   async getQcVerificationStatus(candidateId: number): Promise<QcVerification[]> {
     try {
       const qcData = await this.dataSource.query(
-        `SELECT * FROM QcVerification
-         WHERE CandidateId = $1`,
+        `SELECT * FROM "QcVerification" WHERE "CandidateId" = $1`,
         [candidateId]
       );
 

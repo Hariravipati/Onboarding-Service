@@ -194,7 +194,7 @@ export class CandidateService {
         const existingQc = await this.qcVerificationService.getQcVerificationStatus(candidateId, orgId);
         this.logger.log('Existing QC verification entries', { candidateId, count: existingQc.length });
         const existingDocTypes = existingQc.map(q => q.docType);
-        this.logger.log('Comparing doc types for QC creation', { existing: existingDocTypes, incoming: existingDocTypes });
+        this.logger.log('Comparing doc types for QC creation', { existing: existingDocTypes, incoming: documents.map(d => d.docType) });
         const docsToCreate = documents.filter(doc => !existingDocTypes.includes(doc.docType));
         if (docsToCreate.length) {
           await this.qcVerificationService.createQcVerificationEntries(candidateId, docsToCreate);
@@ -202,7 +202,9 @@ export class CandidateService {
         }
       }
       await this.candidateRepository.submitCandidate(candidateId);
-      await this.eobOoardingRequestService.submitEobRequest(candidate.eobRequestId, orgId);
+      if (candidate.eobRequestId) {
+        await this.eobOoardingRequestService.submitEobRequest(candidate.eobRequestId, orgId);
+      }
       this.logger.log('Candidate submitted successfully', { candidateId, orgId });
       
       return { message: 'Candidate submitted successfully' };
