@@ -15,6 +15,15 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     logger.log('NestJS application created successfully');
 
+    // Enable CORS for all origins
+    app.enableCors({
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: false,
+    });
+    logger.log('CORS enabled for all origins');
+
     app.useGlobalFilters(new GlobalExceptionFilter());
     app.useGlobalInterceptors(new ResponseInterceptor());
     logger.log('Global exception filter and response interceptor registered');
