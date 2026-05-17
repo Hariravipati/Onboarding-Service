@@ -16,7 +16,7 @@ export class EOnboardingRequestService {
   }
 
   async saveRequest(
-    request: CreateEOnboardingRequestDto, orgId: number
+    request: CreateEOnboardingRequestDto, tenantId: number
   ): Promise<any> {
     await this.validateDuplicateRequest(request.email, request.mobileNo);
 
@@ -28,7 +28,7 @@ export class EOnboardingRequestService {
       createdDate: new Date(),
       status: EOnboardingStatus.PENDING,
       updatedDate: null,
-      orgId: orgId,
+      tenantId: tenantId,
       formId: request.formVersionId,
       accessToken: this.generateAccessToken(),
       isLinkUsed: false,
@@ -36,7 +36,7 @@ export class EOnboardingRequestService {
     };
     await this.eOnboardingRepository.saveRequest(requestEntity);
     const onboardingUrl =
-      `https://onboard.thehrpay.com/eob/${requestEntity.requestId}?token=${requestEntity.accessToken}&orgId=${orgId}&formVersionId=${request.formVersionId}`;
+      `https://onboard.thehrpay.com/eob/${requestEntity.requestId}?token=${requestEntity.accessToken}&tenantId=${tenantId}&formVersionId=${request.formVersionId}`;
     return { message: 'EOB request created successfully', onboardingUrl };
   }
 
@@ -91,8 +91,8 @@ export class EOnboardingRequestService {
     return await this.eOnboardingRepository.getEobRequestsStatus(query);
   }
 
-  async getEOBrequestByStaus(status: EOnboardingStatus ,  orgId: number, UserId:string): Promise<EOnboardingRequest[]> {
-    return await this.eOnboardingRepository.getByStatus(status,orgId,UserId);
+  async getEOBrequestByStaus(status: EOnboardingStatus, tenantId: number, UserId: string): Promise<EOnboardingRequest[]> {
+    return await this.eOnboardingRepository.getByStatus(status, tenantId, UserId);
   }
 
   async approveEobRequest(

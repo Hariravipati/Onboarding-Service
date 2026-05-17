@@ -1,19 +1,19 @@
 import { createParamDecorator, ExecutionContext, BadRequestException } from '@nestjs/common';
 
-export const OrgId = createParamDecorator(
+export const TenantId = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): number => {
     const request = ctx.switchToHttp().getRequest();
-    const orgId = request.headers['x-tenant-id'];
-    
-    if (!orgId) {
+    const tenantId = request.headers['x-tenant-id'];
+
+    if (!tenantId) {
       throw new BadRequestException('x-tenant-id header is required');
     }
-    
-    const parsedOrgId = parseInt(orgId, 10);
-    if (isNaN(parsedOrgId)) {
+
+    const parsedTenantId = parseInt(tenantId, 10);
+    if (isNaN(parsedTenantId)) {
       throw new BadRequestException('x-tenant-id must be a valid number');
     }
-    
-    return parsedOrgId;
+
+    return parsedTenantId;
   },
 );

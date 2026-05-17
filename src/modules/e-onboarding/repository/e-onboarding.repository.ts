@@ -144,10 +144,10 @@ export class EOnboardingRepository {
   }
 
 
-  async getByStatus(status: EOnboardingStatus ,  orgId: number, UserId:string): Promise<EOnboardingRequest[]> {
+  async getByStatus(status: EOnboardingStatus, tenantId: number, UserId: string): Promise<EOnboardingRequest[]> {
     return this.requestRepository.find({
-      where: { status, orgId },
-      order: { createdDate: 'DESC' }, // optional but useful
+      where: { status, tenantId },
+      order: { createdDate: 'DESC' },
     });
   }
 
@@ -162,12 +162,12 @@ export class EOnboardingRepository {
     }
   }
 
-  async getEobRequestsByOrgId(orgId: number): Promise<EOnboardingRequest[]> {
+  async getEobRequestsByOrgId(tenantId: number): Promise<EOnboardingRequest[]> {
     try {
        this.logger.log("getEobRequestsByOrgId")
       const data= this.requestRepository.find({
         where: {
-          orgId: orgId,
+          tenantId: tenantId,
         },
         order: { createdDate: 'DESC' },
       });

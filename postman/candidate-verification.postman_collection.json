@@ -1,0 +1,198 @@
+{
+  "info": {
+    "name": "Candidate Verification",
+    "description": "Postman collection for the Candidate Verification module of the Onboarding Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3004",
+      "type": "string"
+    },
+    {
+      "key": "orgId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "candidateId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "verificationId",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Candidate",
+      "item": [
+        {
+          "name": "Verify Candidate (Full - All Documents)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{orgId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/candidate-verification/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidate-verification", "verify"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateId\": {{candidateId}},\n  \"panNumber\": \"ABCDE1234F\",\n  \"panImageBase64\": \"<base64_encoded_pan_image>\",\n  \"aadhaarNumber\": \"123456789012\",\n  \"aadhaarFrontBase64\": \"<base64_encoded_aadhaar_front>\",\n  \"aadhaarBackBase64\": \"<base64_encoded_aadhaar_back>\",\n  \"accountNumber\": \"1234567890\",\n  \"ifsc\": \"HDFC0001234\",\n  \"accountHolderName\": \"John Doe\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Submit all candidate documents for verification (PAN OCR + PAN Verify + Aadhaar OCR + Aadhaar Verify + Bank Verify). Vendor is config-driven via VERIFICATION_VENDOR env var."
+          }
+        },
+        {
+          "name": "Verify Candidate (PAN Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{orgId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/candidate-verification/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidate-verification", "verify"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateId\": {{candidateId}},\n  \"panNumber\": \"ABCDE1234F\",\n  \"panImageBase64\": \"<base64_encoded_pan_image>\",\n  \"accountHolderName\": \"John Doe\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Run only PAN OCR and PAN verification."
+          }
+        },
+        {
+          "name": "Verify Candidate (Aadhaar Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{orgId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/candidate-verification/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidate-verification", "verify"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateId\": {{candidateId}},\n  \"aadhaarNumber\": \"123456789012\",\n  \"aadhaarFrontBase64\": \"<base64_encoded_aadhaar_front>\",\n  \"aadhaarBackBase64\": \"<base64_encoded_aadhaar_back>\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Run only Aadhaar OCR and Aadhaar verification."
+          }
+        },
+        {
+          "name": "Verify Candidate (Bank Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{orgId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/candidate-verification/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidate-verification", "verify"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateId\": {{candidateId}},\n  \"accountNumber\": \"1234567890\",\n  \"ifsc\": \"HDFC0001234\",\n  \"accountHolderName\": \"John Doe\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Run only bank account verification."
+          }
+        }
+      ]
+    },
+    {
+      "name": "HR",
+      "item": [
+        {
+          "name": "Get Verification Results",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{orgId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/candidate-verification/candidates/{{candidateId}}/results",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidate-verification", "candidates", "{{candidateId}}", "results"]
+            },
+            "description": "Get all verification records (PAN, Aadhaar, Bank) for a candidate including extracted data and vendor responses."
+          }
+        },
+        {
+          "name": "Get Audit Trail",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{orgId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/candidate-verification/{{verificationId}}/audit",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidate-verification", "{{verificationId}}", "audit"]
+            },
+            "description": "Get the full audit trail for a specific verification record — shows all status transitions, actors, and timestamps."
+          }
+        },
+        {
+          "name": "Retry Failed Verification",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{orgId}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/candidate-verification/{{verificationId}}/retry",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidate-verification", "{{verificationId}}", "retry"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateId\": {{candidateId}}\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "Retry a specific failed verification record using previously extracted data."
+          }
+        },
+        {
+          "name": "Override Verification Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{orgId}}" },
+              { "key": "x-user-id", "value": "hr@company.com" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/candidate-verification/{{verificationId}}/override",
+              "host": ["{{baseUrl}}"],
+              "path": ["candidate-verification", "{{verificationId}}", "override"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"MANUAL_REVIEW\",\n  \"remarks\": \"Document verified manually by HR\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "description": "HR manually overrides a verification status. Valid statuses: PENDING, SUCCESS, FAILED, RETRYING, MANUAL_REVIEW"
+          }
+        }
+      ]
+    }
+  ]
+}

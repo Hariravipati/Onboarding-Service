@@ -44,10 +44,10 @@ export class EobRequestController {
   @ApiBody({ type: CreateEOnboardingRequestDto })
   @ApiResponse({ status: 201, description: 'Request created successfully' })
   async EobRequest(
-    @OrgId() orgId: number,
+    @OrgId() tenantId: number,
     @Body() dto: CreateEOnboardingRequestDto
   ) {
-    return await this.eOnboardingRequestService.saveRequest(dto, orgId);
+    return await this.eOnboardingRequestService.saveRequest(dto, tenantId);
   }
 
 
@@ -62,9 +62,9 @@ export class EobRequestController {
 
   @Get('eob-requests-by-orgId/:orgId')
   async getByOrg(
-    @OrgId() orgId: number,
+    @OrgId() tenantId: number,
   ) {
-    return this.onboardingService.getEobRequestsByOrgId(orgId);
+    return this.onboardingService.getEobRequestsByOrgId(tenantId);
   }
 
   @Get('eob-requests-status')
@@ -105,11 +105,11 @@ export class EobRequestController {
  
     @Get('get-eob-request-by-status')
     async getEOBrequestByStaus(
-      @OrgId() orgId: number,
+      @OrgId() tenantId: number,
       @Query('status') status: string,
       @Query('UserId') UserId: string
     ) {
-      return await this.eOnboardingRequestService.getEOBrequestByStaus(status as any, orgId, UserId);   
+      return await this.eOnboardingRequestService.getEOBrequestByStaus(status as any, tenantId, UserId);   
     }
 
 }

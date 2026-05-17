@@ -13,6 +13,9 @@ import { EOnboardingDocuments } from './modules/e-onboarding/entities/e-onboardi
 import { EOnboardingModule } from './modules/e-onboarding/e-onboarding.module';
 import { MobileOTP } from './modules/e-onboarding/entities/mobile-otp.entity';
 import { QcVerification } from './modules/e-onboarding/entities/qc-verification.entity';
+import { CandidateVerificationModule } from './modules/candidate-verification/candidate-verification.module';
+import { CandidateVerification } from './modules/candidate-verification/entities/candidate-verification.entity';
+import { VerificationAudit } from './modules/candidate-verification/entities/verification-audit.entity';
 
 @Module({
   imports: [
@@ -43,11 +46,14 @@ import { QcVerification } from './modules/e-onboarding/entities/qc-verification.
           EOnboardingDocuments,
           MobileOTP,
           QcVerification,
+          CandidateVerification,
+          VerificationAudit,
         ],
         ssl: config.get('DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
       }),
     }),
     EOnboardingModule,
+    CandidateVerificationModule,
   ],
 })
 export class AppModule { }

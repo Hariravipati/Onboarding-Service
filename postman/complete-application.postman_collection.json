@@ -1,0 +1,618 @@
+{
+  "info": {
+    "name": "Onboarding-Service Complete API",
+    "description": "Complete Postman collection for the Onboarding-Service application. Set {{base_url}} and {{x_tenant_id}} before sending requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "x_tenant_id",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Check health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Onboarding Requests",
+      "item": [
+        {
+          "name": "List organizations",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/onboarding/organizations",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "organizations"]
+            }
+          }
+        },
+        {
+          "name": "Get form details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/onboarding/org-formDetails?orgId=1&formMappingId=1",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "org-formDetails"],
+              "query": [
+                { "key": "orgId", "value": "1" },
+                { "key": "formMappingId", "value": "1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get org forms list",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/onboarding/org-forms-list?orgId=1",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "org-forms-list"],
+              "query": [
+                { "key": "orgId", "value": "1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create EOB request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"candidate@example.com\",\n  \"mobileNo\": \"9876543210\",\n  \"expiryDate\": \"2026-12-31T23:59:59.000Z\",\n  \"formVersionId\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/onboarding/eob-request",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "eob-request"]
+            }
+          }
+        },
+        {
+          "name": "Validate link",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/onboarding/validate-link?token=ABC123&candidateId=1",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "validate-link"],
+              "query": [
+                { "key": "token", "value": "ABC123" },
+                { "key": "candidateId", "value": "1" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get EOB requests by orgId",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/onboarding/eob-requests-by-orgId/1",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "eob-requests-by-orgId", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get EOB requests status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/onboarding/eob-requests-status?status=PENDING&UserId=admin",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "eob-requests-status"],
+              "query": [
+                { "key": "status", "value": "PENDING" },
+                { "key": "UserId", "value": "admin" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Download EOB template",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/onboarding/download-eob-template?format=csv",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "download-eob-template"],
+              "query": [
+                { "key": "format", "value": "csv" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve EOB request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remarks\": \"Approved by manager\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/onboarding/eob-request/1/approve",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "eob-request", "1", "approve"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "OTP Verification",
+      "item": [
+        {
+          "name": "Send OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mobileNo\": \"9876543210\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/onboarding/send-otp",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "send-otp"]
+            }
+          }
+        },
+        {
+          "name": "Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mobileNo\": \"9876543210\",\n  \"otp\": \"123456\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/onboarding/verify-otp",
+              "host": ["{{base_url}}"],
+              "path": ["onboarding", "verify-otp"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Candidates",
+      "item": [
+        {
+          "name": "Get storage info",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/candidates/storage-info",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "storage-info"]
+            }
+          }
+        },
+        {
+          "name": "Create candidate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"eobRequestId\": 1,\n  \"fullName\": \"Jane Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"mobileNo\": \"9876543210\",\n  \"aadharNo\": \"123456789012\",\n  \"panNo\": \"ABCDE1234F\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/candidates",
+              "host": ["{{base_url}}"],
+              "path": ["candidates"]
+            }
+          }
+        },
+        {
+          "name": "Update candidate",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Jane Smith\",\n  \"email\": \"jane.smith@example.com\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/candidates/1",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get candidate by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/candidates/1",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get documents preview",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/candidates/1/documents/preview?docType=passport",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "1", "documents", "preview"],
+              "query": [
+                { "key": "docType", "value": "passport" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Upload documents",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documents\": [\n    {\n      \"docId\": 1,\n      \"docType\": \"passport\",\n      \"docUrl\": \"https://example.com/docs/passport.pdf\",\n      \"fileName\": \"passport.pdf\",\n      \"contentType\": \"application/pdf\"\n    }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/candidates/1/documents",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "1", "documents"]
+            }
+          }
+        },
+        {
+          "name": "Get candidate preview",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/candidates/1/preview",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "1", "preview"]
+            }
+          }
+        },
+        {
+          "name": "Approve candidate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remarks\": \"Candidate documents verified and approved\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/candidates/1/approve",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "1", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Get QC verification status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/candidates/1/qc-verification",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "1", "qc-verification"]
+            }
+          }
+        },
+        {
+          "name": "Submit candidate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/candidates/1/submit",
+              "host": ["{{base_url}}"],
+              "path": ["candidates", "1", "submit"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "QC Verification",
+      "item": [
+        {
+          "name": "List pending QC verification",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/qc-verification/pending-qc-Verification?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["qc-verification", "pending-qc-Verification"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get QC candidate preview",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/qc-verification/1/qcPreview",
+              "host": ["{{base_url}}"],
+              "path": ["qc-verification", "1", "qcPreview"]
+            }
+          }
+        },
+        {
+          "name": "Approve QC by document",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateId\": 1,\n  \"documentId\": 1,\n  \"status\": \"APPROVED\",\n  \"comments\": \"Document verified successfully\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/qc-verification/qc-approve-by-Documnet",
+              "host": ["{{base_url}}"],
+              "path": ["qc-verification", "qc-approve-by-Documnet"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Offer Letter",
+      "item": [
+        {
+          "name": "Get submitted candidates",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/offer-letter/candidates?status=SUBMITTED&qcStatus=PASS",
+              "host": ["{{base_url}}"],
+              "path": ["offer-letter", "candidates"],
+              "query": [
+                { "key": "status", "value": "SUBMITTED" },
+                { "key": "qcStatus", "value": "PASS" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get candidate offer letter details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/offer-letter/candidates/1",
+              "host": ["{{base_url}}"],
+              "path": ["offer-letter", "candidates", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get candidates by QC status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/offer-letter/candidates/qc-status/PASS",
+              "host": ["{{base_url}}"],
+              "path": ["offer-letter", "candidates", "qc-status", "PASS"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Candidate Verification",
+      "item": [
+        {
+          "name": "Verify candidate",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateId\": 1,\n  \"panNumber\": \"ABCDE1234F\",\n  \"aadhaarNumber\": \"123456789012\",\n  \"accountNumber\": \"1234567890\",\n  \"ifsc\": \"HDFC0001234\",\n  \"accountHolderName\": \"Jane Doe\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/candidate-verification/verify",
+              "host": ["{{base_url}}"],
+              "path": ["candidate-verification", "verify"]
+            }
+          }
+        },
+        {
+          "name": "Get candidate verification results",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/candidate-verification/candidates/1/results",
+              "host": ["{{base_url}}"],
+              "path": ["candidate-verification", "candidates", "1", "results"]
+            }
+          }
+        },
+        {
+          "name": "Get verification audit trail",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/candidate-verification/abc123/audit",
+              "host": ["{{base_url}}"],
+              "path": ["candidate-verification", "abc123", "audit"]
+            }
+          }
+        },
+        {
+          "name": "Retry verification",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"candidateId\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/candidate-verification/abc123/retry",
+              "host": ["{{base_url}}"],
+              "path": ["candidate-verification", "abc123", "retry"]
+            }
+          }
+        },
+        {
+          "name": "Override verification",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "x-tenant-id", "value": "{{x_tenant_id}}" },
+              { "key": "x-user-id", "value": "admin@example.com" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"PASS\",\n  \"remarks\": \"Manual override approved\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{base_url}}/candidate-verification/abc123/override",
+              "host": ["{{base_url}}"],
+              "path": ["candidate-verification", "abc123", "override"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

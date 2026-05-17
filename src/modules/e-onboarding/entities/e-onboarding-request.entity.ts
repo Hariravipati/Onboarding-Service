@@ -11,8 +11,8 @@ export class EOnboardingRequest {
   @PrimaryGeneratedColumn({ name: 'RequestId' })
   requestId: number;
 
-  @Column({ name: 'OrgId' })
-  orgId: number
+  @Column({ name: 'TenantId' })
+  tenantId: number
 
   @Column({ name: 'FormId' })
   formId: number

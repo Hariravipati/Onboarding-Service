@@ -34,9 +34,8 @@ export class EOnboardingService {
     );
   }
 
-  async getEobRequestsByOrgId(orgId: number): Promise<ApiResponse<any[]>> {
-
-    const data = await this.eOnboardingRepository.getEobRequestsByOrgId(orgId);
+  async getEobRequestsByOrgId(tenantId: number): Promise<ApiResponse<any[]>> {
+    const data = await this.eOnboardingRepository.getEobRequestsByOrgId(tenantId);
     return this.buildResponse(
       data,
       'Form list fetched successfully',
