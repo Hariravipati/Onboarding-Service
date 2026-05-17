@@ -11,10 +11,10 @@ import { Observable } from 'rxjs';
 export class OrgIdInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
-    const orgId = request.headers['x-org-id'];
+    const orgId = request.headers['x-tenant-id'];
 
     if (!orgId) {
-      throw new BadRequestException('x-org-id header is required');
+      throw new BadRequestException('x-tenant-id header is required');
     }
 
     return next.handle();

@@ -14,41 +14,44 @@ export class CandidateDetails {
   @PrimaryGeneratedColumn({ name: 'CandidateId', type: 'int' })
   candidateId: number;
 
-  @Column({ name: 'FullName', type: 'nvarchar', length: 100 })
+  @Column({ name: 'EobRequestId', type: 'int', nullable: true })
+  eobRequestId?: number;
+
+  @Column({ name: 'FullName', type: 'varchar', length: 100 })
   fullName: string;
 
-  @Column({ name: 'Email', type: 'nvarchar', length: 200 })
+  @Column({ name: 'Email', type: 'varchar', length: 200 })
   email: string;
 
-  @Column({ name: 'MobileNo', type: 'nvarchar', length: 20, nullable: true })
+  @Column({ name: 'MobileNo', type: 'varchar', length: 20, nullable: true })
   mobileNo?: string;
 
-  @Column({ name: 'AadharNo', type: 'nvarchar', length: 20, nullable: true })
+  @Column({ name: 'AadharNo', type: 'varchar', length: 20, nullable: true })
   aadharNo?: string;
 
-  @Column({ name: 'PanNo', type: 'nvarchar', length: 20, nullable: true })
+  @Column({ name: 'PanNo', type: 'varchar', length: 20, nullable: true })
   panNo?: string;
 
-  @Column({ name: 'PassportNo', type: 'nvarchar', length: 20, nullable: true })
+  @Column({ name: 'PassportNo', type: 'varchar', length: 20, nullable: true })
   passportNo?: string;
 
-  @Column({ name: 'UanNo', type: 'nvarchar', length: 20, nullable: true })
+  @Column({ name: 'UanNo', type: 'varchar', length: 20, nullable: true })
   uanNo?: string;
 
-  @Column({ name: 'CustomFieldsJson', type: 'nvarchar', nullable: true })
+  @Column({ name: 'CustomFieldsJson', type: 'text', nullable: true })
   customFieldsJson?: string;
 
-  @Column({ name: 'OtherDetailsJson', type: 'nvarchar', nullable: true })
+  @Column({ name: 'OtherDetailsJson', type: 'text', nullable: true })
   otherDetailsJson?: string;
 
   @Column({
     name: 'CreatedDate',
-    type: 'datetime2',
-    default: () => 'SYSDATETIME()',
+    type: 'timestamp',
+    default: () => 'NOW()',
   })
   createdDate: Date;
 
-  @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
+  @Column({ name: 'UpdatedDate', type: 'timestamp', nullable: true })
   updatedDate?: Date;
 
   @OneToMany(() => EOnboardingDocuments, doc => doc.candidate)

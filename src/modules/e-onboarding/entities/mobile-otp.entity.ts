@@ -11,15 +11,15 @@ export class MobileOTP {
   @Column({ name: 'OTPHash', type: 'varchar', length: 256 })
   otpHash: string;
 
-  @Column({ name: 'ExpiryDate', type: 'datetime' })
+  @Column({ name: 'ExpiryDate', type: 'timestamp' })
   expiryDate: Date;
 
-  @Column({ name: 'IsUsed', type: 'bit', default: false })
+  @Column({ name: 'IsUsed', type: 'boolean', default: false })
   isUsed: boolean;
 
   @Column({ name: 'AttemptCount', type: 'int', default: 0 })
   attemptCount: number;
 
-  @CreateDateColumn({ name: 'CreatedAt', type: 'datetime' })
+  @CreateDateColumn({ name: 'CreatedAt', type: 'timestamp' })
   createdAt: Date;
 }

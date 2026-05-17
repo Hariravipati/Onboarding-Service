@@ -3,15 +3,15 @@ import { createParamDecorator, ExecutionContext, BadRequestException } from '@ne
 export const OrgId = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): number => {
     const request = ctx.switchToHttp().getRequest();
-    const orgId = request.headers['x-org-id'];
+    const orgId = request.headers['x-tenant-id'];
     
     if (!orgId) {
-      throw new BadRequestException('x-org-id header is required');
+      throw new BadRequestException('x-tenant-id header is required');
     }
     
     const parsedOrgId = parseInt(orgId, 10);
     if (isNaN(parsedOrgId)) {
-      throw new BadRequestException('x-org-id must be a valid number');
+      throw new BadRequestException('x-tenant-id must be a valid number');
     }
     
     return parsedOrgId;

@@ -6,6 +6,7 @@ import { GlobalExceptionFilter } from './filters/global-exception.filter';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 
 async function bootstrap() {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   const logger = new Logger('Bootstrap');
   
   try {
@@ -14,12 +15,21 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     logger.log('NestJS application created successfully');
 
+    // Enable CORS for all origins
+    app.enableCors({
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: false,
+    });
+    logger.log('CORS enabled for all origins');
+
     app.useGlobalFilters(new GlobalExceptionFilter());
     app.useGlobalInterceptors(new ResponseInterceptor());
     logger.log('Global exception filter and response interceptor registered');
 
     const config = new DocumentBuilder()
-      .setTitle('Onboarding Service API')
+      .setTitle('E-Onboarding Service API')
       .setDescription('NestJS Onboarding Service with MSSQL')
       .setVersion('1.0')
       .build();

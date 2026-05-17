@@ -1,0 +1,7 @@
+export enum VerificationType {
+  PAN_OCR = 'PAN_OCR',
+  PAN_VERIFY = 'PAN_VERIFY',
+  AADHAAR_OCR = 'AADHAAR_OCR',
+  AADHAAR_VERIFY = 'AADHAAR_VERIFY',
+  BANK_VERIFY = 'BANK_VERIFY',
+}

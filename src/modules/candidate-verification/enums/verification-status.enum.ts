@@ -1,0 +1,7 @@
+export enum VerificationStatus {
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED',
+  RETRYING = 'RETRYING',
+  MANUAL_REVIEW = 'MANUAL_REVIEW',
+}

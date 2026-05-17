@@ -20,26 +20,26 @@ export class EOnboardingDocuments {
   @Column({ name: 'DocId', type: 'int' })
   docId: number;
 
-  @Column({ name: 'DocType', type: 'nvarchar', length: 50 })
+  @Column({ name: 'DocType', type: 'varchar', length: 50 })
   docType: string;
 
-  @Column({ name: 'DocUrl', type: 'nvarchar', length: 200 })
+  @Column({ name: 'DocUrl', type: 'varchar', length: 200 })
   docUrl: string;
 
-  @Column({ name: 'StorageSource', type: 'nvarchar', length: 20, default: 'LOCAL' })
+  @Column({ name: 'StorageSource', type: 'varchar', length: 20, default: 'LOCAL' })
   storageSource: string;
 
-  @Column({ name: 'IsLatest', type: 'bit', default: true })
+  @Column({ name: 'IsLatest', type: 'boolean', default: true })
   isLatest: boolean;
 
   @Column({
     name: 'CreatedDate',
-    type: 'datetime2',
-    default: () => 'SYSDATETIME()',
+    type: 'timestamp',
+    default: () => 'NOW()',
   })
   createdDate: Date;
 
-  @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
+  @Column({ name: 'UpdatedDate', type: 'timestamp', nullable: true })
   updatedDate?: Date;
 
   @ManyToOne(() => CandidateDetails, candidate => candidate.documents, {

@@ -5,12 +5,16 @@ import {
   IsString,
   IsArray,
   ValidateNested,
+  IsNumber,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateCandidateDocumentDto } from './candidate-documents.dto';
  
 
 export class CreateCandidateDto {
+
+  @IsNumber()
+  eobRequestId: number;
 
   @IsString()
   @IsNotEmpty()

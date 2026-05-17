@@ -6,8 +6,8 @@ import { OfferLetterRepository } from './repository/offer-letter.repository';
 import { CandidateDetails } from '../e-onboarding/entities/candidate-details.entity';
 import { EOnboardingResponse } from '../e-onboarding/entities/e-onboarding-response.entity';
 import { QcVerification } from '../e-onboarding/entities/qc-verification.entity';
-import { QcVerificationService } from '../e-onboarding/services/qc-verification.service';
-import { QcVerificationRepository } from '../e-onboarding/repository/qc-verification.repository';
+// import { QcVerificationService } from '../e-onboarding/services/qc-verification.service';
+// import { QcVerificationRepository } from '../e-onboarding/repository/qc-verification.repository';
 
 @Module({
   imports: [
@@ -21,8 +21,8 @@ import { QcVerificationRepository } from '../e-onboarding/repository/qc-verifica
   providers: [
     OfferLetterService,
     OfferLetterRepository,
-    QcVerificationService,
-    QcVerificationRepository,
+    // QcVerificationService,
+    // QcVerificationRepository,
   ],
   exports: [OfferLetterService],
 })

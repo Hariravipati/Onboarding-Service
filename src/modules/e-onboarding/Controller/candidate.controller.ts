@@ -27,7 +27,7 @@ export class CandidateController {
   @Get('storage-info')
   getStorageInfo(@Req() req: any): any {
     const orgId = req.orgId;
-    const provider = process.env.STORAGE_PROVIDER || 'LOCAL';
+    const provider = 'S3';
     return {
       orgId,
       currentProvider: provider,
@@ -142,18 +142,7 @@ export class CandidateController {
     return this.candidateService.approveCandidate(candidateId, orgId, approvalData.remarks);
   }
 
-  /* =========================
-     CREATE QC Verification Entry
-     ========================= */
-  @Post(':candidateId/qc-verification')
-  async createQcVerification(
-    @Req() req: any,
-    @Param('candidateId', ParseIntPipe) candidateId: number,
-    @Body() qcData: { docType: string; status: string; remarks?: string },
-  ): Promise<any> {
-    const orgId = req.orgId;
-    return this.candidateService.createQcVerification(candidateId, orgId, qcData);
-  }
+
 
   /* =========================
      GET QC Verification Status
@@ -176,6 +165,7 @@ export class CandidateController {
     @Param('candidateId', ParseIntPipe) candidateId: number,
   ): Promise<any> {
     try {
+      console.log("Submit");
       const orgId = req.orgId;
       return this.candidateService.submitCandidate(candidateId, orgId);
     } catch (err) {

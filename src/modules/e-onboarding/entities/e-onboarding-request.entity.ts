@@ -3,6 +3,7 @@ import {
   Column,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { EOnboardingStatus } from '../../../common/enums/global_enums';
 
 @Entity('EOnboardingRequest')
 export class EOnboardingRequest {
@@ -10,58 +11,40 @@ export class EOnboardingRequest {
   @PrimaryGeneratedColumn({ name: 'RequestId' })
   requestId: number;
 
-  @Column({ name: 'OrgId' })
-  orgId: number
+  @Column({ name: 'TenantId' })
+  tenantId: number
 
   @Column({ name: 'FormId' })
   formId: number
 
-  @Column({ name: 'Email', type: 'nvarchar', length: 200 })
+  @Column({ name: 'Email', type: 'varchar', length: 200 })
   email: string;
 
-  @Column({ name: 'MobileNo', type: 'nvarchar', length: 20, nullable: true })
+  @Column({ name: 'MobileNo', type: 'varchar', length: 20, nullable: true })
   mobileNo: string;
 
-  @Column({ name: 'ExpiryDate', type: 'datetime2' })
+  @Column({ name: 'ExpiryDate', type: 'timestamp' })
   expiryDate: Date;
 
-  @Column({ name: 'Status', type: 'nvarchar', length: 50, default: 'PENDING' })
-  status: string; // PENDING, QC_APPROVED, REJECTED, SUBMITTED
+ @Column({
+  name: 'Status',
+  type: 'varchar',
+  length: 1,
+  default: EOnboardingStatus.PENDING
+})
+status: EOnboardingStatus;
+  @Column({ name: 'AccessToken', type: 'varchar', length: 500 , nullable: true})
+  accessToken: string;
 
-  @Column({ name: 'Remarks', type: 'nvarchar', length: 500, nullable: true })
+  @Column({ name: 'IsLinkUsed', type: 'boolean', default: false })
+  isLinkUsed: boolean;
+
+  @Column({ name: 'Remarks', type: 'varchar', length: 500, nullable: true })
   remarks?: string;
 
-  @Column({ name: 'CreatedDate', type: 'datetime2', default: () => 'SYSDATETIME()' })
+  @Column({ name: 'CreatedDate', type: 'timestamp', default: () => 'NOW()' })
   createdDate: Date;
 
-  @Column({ name: 'UpdatedDate', type: 'datetime2', nullable: true })
-  updatedDate: Date;
-
-  /* =========================
-     Relations
-     ========================= */
-
-  // @ManyToOne(() => Organization, org => org.onboardingRequests, {
-  //   onDelete: 'CASCADE',
-  // })
-  // // @JoinColumn({ name: 'OrgId' })
-  // // @Index('IX_EOnboardingRequest_OrgId')
-  // // organization: Organization;
-
-  // // @ManyToOne(() => FormVersion, version => version.onboardingRequests, {
-  // //   onDelete: 'NO ACTION',
-  // // })
-  // // @JoinColumn({ name: 'FormVersionId' })
-  // // @Index('IX_EOnboardingRequest_FormVersionId')
-  // // formVersion: FormVersion;
-
-
-
-  // @OneToOne(() => EOnboardingResponse, response => response.request)
-  // response: EOnboardingResponse;
-
-  // @OneToMany(() => RequestStatusHistory, history => history.request, {
-  //   cascade: true,
-  // })
-  // statusHistory: RequestStatusHistory[];
+  @Column({ name: 'UpdatedDate', type: 'timestamp', nullable: true })
+  updatedDate?: Date;
 }

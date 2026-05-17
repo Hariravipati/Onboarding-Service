@@ -33,7 +33,6 @@ export class EobRequestController {
 
   @Get('org-forms-list')
   async getFormlist(
-    @OrgId() orgId: string,
     @Query('orgId') queryOrgId: number,
   ) {
     return await this.onboardingService.getOrgFormList(queryOrgId)
@@ -45,23 +44,31 @@ export class EobRequestController {
   @ApiBody({ type: CreateEOnboardingRequestDto })
   @ApiResponse({ status: 201, description: 'Request created successfully' })
   async EobRequest(
-    @OrgId() orgId: number,
+    @OrgId() tenantId: number,
     @Body() dto: CreateEOnboardingRequestDto
   ) {
-    return await this.eOnboardingRequestService.saveRequest(dto, orgId);
+    return await this.eOnboardingRequestService.saveRequest(dto, tenantId);
+  }
+
+
+  @Get('validate-link')
+  async validateLink(
+    @Query('token') token: string,
+    @Query('candidateId') eboRequestId: number
+  ) {
+    this
+    return this.eOnboardingRequestService.verifyTokenAndRequestId(token, eboRequestId);
   }
 
   @Get('eob-requests-by-orgId/:orgId')
   async getByOrg(
-    @OrgId() orgId: number,
+    @OrgId() tenantId: number,
   ) {
-    return this.onboardingService.getEobRequestsByOrgId(orgId);
+    return this.onboardingService.getEobRequestsByOrgId(tenantId);
   }
-
 
   @Get('eob-requests-status')
   async getEobRequestsStatus(
-    @OrgId() orgId: string,
     @Query() query: EobRequestStatusQueryDto,
   ) {
     return this.eOnboardingRequestService.getEobRequestsStatus(query);
@@ -91,8 +98,19 @@ export class EobRequestController {
     return await this.eOnboardingRequestService.approveEobRequest(requestId, orgId, approvalData.remarks);
   }
 
-  
 
+  /* =========================
+    @Get EOB Request Status
+    ========================= */
+ 
+    @Get('get-eob-request-by-status')
+    async getEOBrequestByStaus(
+      @OrgId() tenantId: number,
+      @Query('status') status: string,
+      @Query('UserId') UserId: string
+    ) {
+      return await this.eOnboardingRequestService.getEOBrequestByStaus(status as any, tenantId, UserId);   
+    }
 
 }
 
